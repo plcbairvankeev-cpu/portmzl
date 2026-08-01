@@ -11,7 +11,11 @@
 /* Базовые правила. Теней нет. Градиентов нет. Радиус 2px. Раздел 5.5 ТЗ. */
 
 html {
-  background: var(--paper);
+  background-color: var(--paper);
+  /* Тонкая фактура вместо плоской заливки: латунная точечная сетка на очень низкой прозрачности. */
+  background-image: radial-gradient(rgba(200, 164, 92, 0.05) 1px, transparent 1.5px);
+  background-size: 24px 24px;
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-body);
   font-size: var(--step-0);
@@ -21,6 +25,7 @@ html {
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 h1,
@@ -86,6 +91,15 @@ a:hover {
 .link {
   color: var(--ink);
   font-weight: 500;
+}
+/* Вторичная ссылка на тёмном герое */
+.link--on-dark {
+  color: var(--on-dark);
+  text-decoration-color: var(--brass);
+}
+.link--on-dark:hover {
+  color: #fff;
+  text-decoration-color: var(--red);
 }
 
 /* Уведомление о непереведённой странице (i18n) */

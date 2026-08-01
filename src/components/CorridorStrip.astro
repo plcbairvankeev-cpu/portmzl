@@ -23,10 +23,10 @@ import type { Lang } from '../i18n/ui';
 const lang = getLangFromUrl(Astro.url);
 
 // Топонимы маршрута по языкам. Русский — источник; zh/en — сверенные названия.
-const L: Record<Lang, { ulanude: string; zabaikalsk: string; border: string; manzhouli: string; site: string; route: string }> = {
-  ru: { ulanude: 'УЛАН-УДЭ', zabaikalsk: 'ЗАБАЙКАЛЬСК', border: 'ГРАНИЦА', manzhouli: 'МАНЬЧЖУРИЯ', site: 'ПЛОЩАДКА', route: 'Маршрут: Улан-Удэ — Забайкальск — граница — Маньчжурия — площадка' },
-  zh: { ulanude: '乌兰乌德', zabaikalsk: '后贝加尔斯克', border: '国境', manzhouli: '满洲里', site: '场地', route: '路线：乌兰乌德 — 后贝加尔斯克 — 国境 — 满洲里 — 场地' },
-  en: { ulanude: 'ULAN-UDE', zabaikalsk: 'ZABAYKALSK', border: 'BORDER', manzhouli: 'MANZHOULI', site: 'SITE', route: 'Route: Ulan-Ude — Zabaykalsk — border — Manzhouli — site' },
+const L: Record<Lang, { origin: string; zabaikalsk: string; border: string; manzhouli: string; site: string; route: string }> = {
+  ru: { origin: 'МОСКВА', zabaikalsk: 'ЗАБАЙКАЛЬСК', border: 'ГРАНИЦА', manzhouli: 'МАНЬЧЖУРИЯ', site: 'ПЛОЩАДКА', route: 'Маршрут: Москва — Забайкальск — граница — Маньчжурия — площадка' },
+  zh: { origin: '莫斯科', zabaikalsk: '后贝加尔斯克', border: '国境', manzhouli: '满洲里', site: '场地', route: '路线：莫斯科 — 后贝加尔斯克 — 国境 — 满洲里 — 场地' },
+  en: { origin: 'MOSCOW', zabaikalsk: 'ZABAYKALSK', border: 'BORDER', manzhouli: 'MANZHOULI', site: 'SITE', route: 'Route: Moscow — Zabaykalsk — border — Manzhouli — site' },
 };
 const t = L[lang];
 
@@ -47,7 +47,7 @@ const dSite = await dist('distance_to_border');
 
 <figure class="corridor" role="img" aria-label={t.route}>
   <ol class="corridor__track" aria-hidden="true">
-    <li class="corridor__node" lang={lang}>{t.ulanude}</li>
+    <li class="corridor__node" lang={lang}>{t.origin}</li>
 
     <li class="corridor__seg">
       <span class="corridor__line"></span>
