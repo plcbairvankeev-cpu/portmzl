@@ -1,0 +1,97 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Fact from '../components/Fact.astro';
+import CTA from '../components/CTA.astro';
+import Qualifications from '../components/Qualifications.astro';
+import Licenses from '../components/Licenses.astro';
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Таможенное оформление и хранение на площадке контроля',
+  serviceType: 'Площадка таможенного контроля',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Площадка таможенного контроля в 200 м от перехода Маньчжурия: оформление, СВХ, перецепка полуприцепов, контейнерная перевалка, склады.',
+};
+---
+
+<Base
+  title="Площадка таможенного контроля у перехода Маньчжурия"
+  description="Площадка таможенного контроля в 200 м от автомобильного перехода Маньчжурия: 15 320 м², умные КПП, видеонаблюдение, склады обычные и постоянной температуры."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Площадка таможенного контроля в 200 м от перехода">
+    <div class="facts-grid">
+      <Fact id="site_area" />
+      <Fact id="site_warehouses" />
+      <Fact id="parking_capacity" />
+      <Fact id="port_grade" />
+      <Fact id="cctv_cameras" />
+      <Fact id="cctv_retention" />
+      <Fact id="investment_total" />
+    </div>
+  </Section>
+
+  <Qualifications />
+
+  <Licenses />
+
+  <Section title="Зоны площадки">
+    <ul class="tags">
+      <li>стоянка и обработка автотранспорта</li>
+      <li>погрузочно-разгрузочные работы</li>
+      <li>перецепка полуприцепов <span lang="zh-Hans">甩挂</span></li>
+      <li>контейнерная перевалка</li>
+      <li>таможенное оформление и досмотр</li>
+      <li>умные КПП и видеоконтроль</li>
+    </ul>
+  </Section>
+
+  <Section title="Склады">
+    <p class="stack">
+      Обычные — <Fact id="warehouse_normal_area" inline /> / <Fact
+        id="warehouse_normal_volume"
+        inline
+      />.<br />
+      С постоянной температурой — <Fact id="warehouse_temp_area" inline /> / <Fact
+        id="warehouse_temp_volume"
+        inline
+      />.
+    </p>
+  </Section>
+
+  {/* Фотоблок не выводится: своих фото терминала пока нет, фотостоки запрещены (§6.2, запрет 1). */}
+
+  <Section>
+    <CTA
+      title="Рассчитать слот и срок по вашей партии"
+      label="Заказать расчёт"
+      href="/audit#form"
+    />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .stack {
+    font-size: var(--step-1);
+    line-height: 1.8;
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import ImportCategories from '../components/ImportCategories.astro';
+
+// 9 болей из docs/01_svodnyy_analiz.md, раздел 4.4. Левая колонка — «Обычно приходится».
+const rows = [
+  ['Открывать валютный счёт', 'Договор с российским юрлицом, расчёты в рублях'],
+  ['Вставать на валютный контроль', 'Валютный контроль остаётся вне клиента'],
+  ['Вести ВЭД-бухучёт', 'Внутренний договор, обычная бухгалтерия'],
+  ['Взаимодействовать с таможней', 'Оформление на стороне оператора, обе стороны границы'],
+  ['Получать сертификаты — фито, вет, тех', 'Сопровождение сертификации, эксперт ЦПЭ'],
+  ['Держать таможенного брокера в штате', 'Брокерская функция на площадке'],
+  ['Проводить валютные платежи через себя', 'Расчёты не проходят через клиента'],
+  ['Самостоятельно считать экономику проекта', 'Платный экспортный аудит как отдельный продукт'],
+  ['Работать с низкомаржинальным сырьём как есть', 'Подбор номенклатуры и точки сбыта в КНР'],
+];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Работа с Китаем без собственного ВЭД',
+  serviceType: 'Агент ВЭД',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Внешнеэкономическая деятельность по договору с российским юрлицом, расчёты в рублях, без валютного счёта и брокера в штате.',
+};
+---
+
+<Base
+  title="Экспорт в Китай без валютного счёта и своего ВЭД"
+  description="Работа с Китаем без собственного ВЭД: договор с российским юрлицом, расчёты в рублях, обычная бухгалтерия. Внешнеэкономическую деятельность берём на себя."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Работа с Китаем без собственного ВЭД">
+    <p class="lead">
+      Внешнеэкономическая деятельность — не профильная работа производителя, а избыточная нагрузка. Мы
+      берём её на себя целиком.
+    </p>
+  </Section>
+
+  <ImportCategories />
+
+  <Section title="Что меняется">
+    <table class="pains">
+      <thead>
+        <tr>
+          <th scope="col">Обычно приходится</th>
+          <th scope="col">С нами</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(([pain, answer]) => (
+            <tr>
+              <td>{pain}</td>
+              <td>{answer}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </Section>
+
+  <Section title="Как это оформлено">
+    <ul class="plain">
+      <li>договор с российским юридическим лицом</li>
+      <li>расчёты в рублях</li>
+      <li>обычный бухгалтерский учёт у клиента</li>
+    </ul>
+  </Section>
+
+  <Section title="Чего мы не обещаем">
+    <p class="lead">
+      Китайская сторона допускает товары по категориям и по конкретным аккредитованным
+      предприятиям-поставщикам. Мы не обещаем неограниченную номенклатуру. Первый шаг всегда —
+      проверка вашей позиции по действующим требованиям.
+    </p>
+  </Section>
+
+  <Section>
+    <CTA
+      title="Рассчитать слот и срок по вашей партии"
+      label="Заказать расчёт"
+      href="/audit#form"
+    />
+  </Section>
+</Base>
+
+<style>
+  .pains {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step-0);
+  }
+  .pains th,
+  .pains td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line);
+  }
+  .pains th {
+    font-family: var(--font-body);
+    font-weight: 500;
+    background: var(--concrete);
+  }
+  .pains td:first-child {
+    color: var(--steel);
+  }
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+</style>

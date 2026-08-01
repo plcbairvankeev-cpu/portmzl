@@ -1,0 +1,88 @@
+---
+// English /site. Draft translation — needs proofreading.
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import CTA from '../../components/CTA.astro';
+import Qualifications from '../../components/Qualifications.astro';
+import Licenses from '../../components/Licenses.astro';
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Customs clearance and storage at the control site',
+  serviceType: 'Customs control site',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Customs control site 200 m from the Manzhouli road crossing: clearance, bonded warehouse, semi-trailer swapping, container transshipment, warehouses.',
+};
+---
+
+<Base
+  title="Customs control site at the Manzhouli crossing"
+  description="Customs control site 200 m from the Manzhouli road crossing: 15,320 m², smart checkpoints, CCTV, ordinary and temperature-controlled warehouses."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Customs control site 200 m from the crossing">
+    <div class="facts-grid">
+      <Fact id="site_area" />
+      <Fact id="site_warehouses" />
+      <Fact id="parking_capacity" />
+      <Fact id="port_grade" />
+      <Fact id="cctv_cameras" />
+      <Fact id="cctv_retention" />
+      <Fact id="investment_total" />
+    </div>
+  </Section>
+
+  <Qualifications />
+
+  <Licenses />
+
+  <Section title="Site zones">
+    <ul class="tags">
+      <li>parking and handling of road vehicles</li>
+      <li>loading and unloading</li>
+      <li>semi-trailer swapping <span lang="zh-Hans">甩挂</span></li>
+      <li>container transshipment</li>
+      <li>customs clearance and inspection</li>
+      <li>smart checkpoints and video control</li>
+    </ul>
+  </Section>
+
+  <Section title="Warehouses">
+    <p class="stack">
+      Ordinary — <Fact id="warehouse_normal_area" inline /> / <Fact id="warehouse_normal_volume" inline />.<br />
+      Temperature-controlled — <Fact id="warehouse_temp_area" inline /> / <Fact id="warehouse_temp_volume" inline />.
+    </p>
+  </Section>
+
+  {/* Photo block omitted: no own terminal photos yet, stock photos are not used. */}
+
+  <Section>
+    <CTA title="Calculate a slot and lead time for your consignment" label="Request a calculation" href="/en/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .stack {
+    font-size: var(--step-1);
+    line-height: 1.8;
+  }
+</style>

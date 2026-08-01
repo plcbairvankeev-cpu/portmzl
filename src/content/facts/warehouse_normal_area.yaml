@@ -1,0 +1,8 @@
+id: warehouse_normal_area
+value: "31 064"
+unit: "м²"
+label_ru: "Обычные склады, площадь"
+label_en: "Ordinary warehouses, area"
+label_zh: "普通仓储库房建筑面积"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed

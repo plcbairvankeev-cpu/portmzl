@@ -1,0 +1,99 @@
+---
+/**
+ * Китайская версия /audit. Перевод, ЧЕРНОВИК на сверку. LeadForm локализуется сам (t()).
+ * Цена — pending, вместо цифры «应询报价».
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import LeadForm from '../../components/LeadForm.astro';
+
+const included = [
+  '商品HS/税则编码',
+  '中方适用监管方式',
+  '该品类的要求',
+  '是否有对应的获认证场地',
+  '中国价格参考',
+  '物流参考',
+  '毛利区间',
+  '单证清单',
+];
+const excluded = ['寻找买家', '合同法律陪同', '通关担保'];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: '商品出口审核',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+};
+---
+
+<Base
+  title="商品出口审核 — 满洲里陆港国际物流中心"
+  description="商品出口审核：HS编码、中方适用监管方式、品类要求、价格与物流参考、毛利区间。付费环节，三个工作日。"
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="商品出口审核">
+    <p class="lead" lang="zh-Hans">
+      付费环节，三个工作日。在您签署任何文件之前，回答您的商品能否通过、成本几何。
+    </p>
+  </Section>
+
+  <Section title="包含内容">
+    <ul class="plain plain--check" lang="zh-Hans">
+      {included.map((i) => <li>{i}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="不包含内容">
+    <ul class="plain" lang="zh-Hans">
+      {excluded.map((e) => <li>{e}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="费用">
+    <p class="lead" lang="zh-Hans">费用取决于品类，应询报价。</p>
+  </Section>
+
+  <Section title="工作原则">
+    <p class="lead" lang="zh-Hans">
+      我们不做无偿等待。前期分析与核算在约定并付费的环节内完成。
+    </p>
+  </Section>
+
+  <Section id="form" title="报价申请">
+    <p class="lead form-lead" lang="zh-Hans">
+      前三个字段关于货物。能说清商品与数量的客户，我们即为其核算时段、时限与费用区间。
+    </p>
+    <LeadForm />
+  </Section>
+</Base>
+
+<style>
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+  .plain--check {
+    list-style: none;
+    padding-left: 0;
+  }
+  .plain--check li {
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .plain--check li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--port);
+    font-family: var(--font-data);
+  }
+  .form-lead {
+    margin-bottom: 1.5rem;
+  }
+</style>

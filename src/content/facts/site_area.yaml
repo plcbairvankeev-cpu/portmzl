@@ -1,0 +1,8 @@
+id: site_area
+value: "15 320"
+unit: "м²"
+label_ru: "Площадь площадки таможенного контроля"
+label_en: "Area of the customs control site"
+label_zh: "监管作业场所总占地面积"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed

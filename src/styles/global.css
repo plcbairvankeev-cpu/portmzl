@@ -1,0 +1,191 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Величины сетки из раздела 5.5 ТЗ. Держим здесь, а не в tokens.css:
+   tokens.css — дословно раздел 5.2, без добавлений. */
+:root {
+  --container: 1200px;  /* контейнер, раздел 5.5 */
+  --measure: 68ch;      /* максимум символов в строке прозы, раздел 5.5 */
+}
+
+/* Базовые правила. Теней нет. Градиентов нет. Радиус 2px. Раздел 5.5 ТЗ. */
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-body);
+  font-weight: 500;
+}
+
+p {
+  max-width: var(--measure);
+}
+
+/* Ссылки — чернила + латунная подчёркивающая линия, hover — красная линия. */
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--brass);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.15em;
+}
+a:hover {
+  text-decoration-color: var(--red);
+}
+
+/* Фокус — латунная обводка 2px. Раздел 9 ТЗ. */
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+
+/* ── Общие утилиты страниц (раздел 5) ─────────────────── */
+
+/* Главное действие — красная кнопка (одна на экран). */
+.button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: var(--red);
+  color: var(--paper);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid var(--red);
+  border-radius: var(--radius);
+}
+.button:hover {
+  background: var(--red-hover);
+  border-color: var(--red-hover);
+}
+.button:active {
+  background: var(--red-press);
+  border-color: var(--red-press);
+}
+
+.link {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* Уведомление о непереведённой странице (i18n) */
+.i18n-notice {
+  margin: 1rem 0 0;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--steel);
+  border-radius: var(--radius);
+  background: var(--concrete);
+  font-size: var(--step--1);
+  color: var(--steel);
+  max-width: var(--measure);
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-data);
+  font-weight: 500;
+  font-size: var(--step--1);
+  letter-spacing: 0.04em;
+  color: var(--steel);
+}
+
+.lead {
+  font-size: var(--step-1);
+  color: var(--steel);
+  max-width: var(--measure);
+}
+
+/* Плашки фактов — 2 колонки на десктопе, 1 на мобильном (раздел 5.5) */
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.facts-grid--three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.card {
+  display: block;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--paper);
+}
+.card:hover {
+  border-color: var(--port);
+}
+.card__title {
+  margin: 0;
+  font-size: var(--step-1);
+}
+.card__text {
+  margin: 0.625rem 0 1rem;
+  color: var(--steel);
+  font-size: var(--step--1);
+}
+.card__more {
+  color: var(--port);
+  font-weight: 500;
+  font-size: var(--step--1);
+}
+
+@media (max-width: 48rem) {
+  .facts-grid,
+  .facts-grid--three,
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Печать: убираем хром сайта — на бумагу идёт только контент (для «паспорта» и любой страницы). */
+@media print {
+  html {
+    background: #fff;
+  }
+  .site-header,
+  .site-footer,
+  .breadcrumbs {
+    display: none !important;
+  }
+}
+
+/* prefers-reduced-motion отключает всю анимацию. Раздел 9 ТЗ. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

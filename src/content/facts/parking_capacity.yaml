@@ -1,0 +1,7 @@
+id: parking_capacity
+value: "100+"
+label_ru: "Одновременная стоянка и обработка автотранспорта"
+label_en: "Simultaneous parking and handling of road vehicles"
+label_zh: "停车与作业车辆"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed

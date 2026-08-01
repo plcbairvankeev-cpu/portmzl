@@ -1,0 +1,207 @@
+---
+import Section from './Section.astro';
+import Fact from './Fact.astro';
+import CorridorStrip from './CorridorStrip.astro';
+import CTA from './CTA.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { getHome } from '../i18n/content/home';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { c, translated } = getHome(lang);
+const auditForm = localizePath('/audit', lang) + '#form';
+---
+
+{!translated && <p class="i18n-notice">{t('notice.untranslated')}</p>}
+
+<section class="hero">
+  <p class="hero__eyebrow">{c.eyebrow} · <span lang="zh-Hans">满洲里陆港国际物流中心</span></p>
+  <h1 class="hero__title">{c.h1Before}{' '}<Fact id="distance_to_border" inline />{' '}{c.h1After}</h1>
+  <p class="hero__sub">{c.sub}</p>
+
+  <div class="hero__corridor"><CorridorStrip /></div>
+
+  <div class="hero__actions">
+    <a class="button" href={auditForm}>{c.btnPrimary}</a>
+    <a class="link" href={localizePath('/site', lang)}>{c.btnSecondary} →</a>
+  </div>
+</section>
+
+<Section>
+  <div class="facts-grid">
+    <Fact id="distance_to_border" />
+    <Fact id="grain_capacity" />
+    <Fact id="port_grade" />
+    <Fact id="parking_capacity" />
+  </div>
+</Section>
+
+<Section title={c.directionsHead}>
+  <div class="cards">
+    {
+      c.directions.map((d) => (
+        <a class="card" href={localizePath(d.href, lang)}>
+          <h3 class="card__title">{d.title}</h3>
+          <p class="card__text">{d.text}</p>
+          <span class="card__more">{c.more} →</span>
+        </a>
+      ))
+    }
+  </div>
+</Section>
+
+<Section title={c.processHead}>
+  <ol class="process">
+    {
+      c.process.map((step, i) => (
+        <li class="process__step">
+          <span class="process__num">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="process__title">{step.title}</h3>
+            <p class="process__text">{step.text}</p>
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</Section>
+
+<Section title={c.notDoHead}>
+  <ol class="notdo">
+    {
+      c.notDoing.map((item, i) => (
+        <li class="notdo__item">
+          <span class="notdo__num">{String(i + 1).padStart(2, '0')}</span>
+          <span>{item}</span>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="notdo__close">
+    {c.notDoClose} <a href={localizePath('/ved', lang)}>{c.notDoCloseLink} →</a>
+  </p>
+</Section>
+
+<Section title={c.whoHead}>
+  <p class="who">{c.whoBefore}{' '}<Fact id="group_branches" inline />{' '}{c.whoAfter}</p>
+  <div class="facts-grid facts-grid--three">
+    <Fact id="group_branches" />
+    <Fact id="group_staff" />
+    <Fact id="neeq_code" />
+  </div>
+  <p class="who__more"><a href={localizePath('/about', lang)}>{c.whoMore} →</a></p>
+</Section>
+
+<Section id="cta">
+  <CTA title={c.ctaTitle} text={c.ctaText} label={c.ctaBtn} href={auditForm} />
+</Section>
+
+<style>
+  .hero {
+    padding-block: clamp(2rem, 6vw, 4rem);
+  }
+  .hero__eyebrow {
+    margin: 0 0 1rem;
+    font-family: var(--font-data);
+    font-weight: 500;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    color: var(--steel);
+  }
+  .hero__title {
+    margin: 0;
+    font-size: var(--step-4);
+    max-width: 18ch;
+  }
+  .hero__sub {
+    margin: 1.5rem 0 0;
+    font-size: var(--step-1);
+    color: var(--steel);
+    max-width: var(--measure);
+  }
+  .hero__corridor {
+    margin-top: 2.5rem;
+  }
+  .hero__actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+  }
+
+  .facts-grid--three {
+    margin-top: 1.5rem;
+  }
+
+  .process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 2.5rem;
+    max-width: 60rem;
+  }
+  .process__step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: baseline;
+    padding-block: 0.75rem;
+    border-top: 1px solid var(--line);
+  }
+  .process__num {
+    font-family: var(--font-data);
+    font-weight: 500;
+    font-size: var(--step-1);
+    color: var(--brass);
+  }
+  .process__title {
+    margin: 0;
+    font-size: var(--step-1);
+  }
+  .process__text {
+    margin: 0.25rem 0 0;
+    color: var(--steel);
+    font-size: var(--step--1);
+  }
+
+  .notdo {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem 2rem;
+    max-width: 60rem;
+  }
+  .notdo__item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .notdo__num {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+  .notdo__close {
+    margin-top: 1.5rem;
+    font-weight: 500;
+  }
+
+  .who {
+    max-width: var(--measure);
+  }
+
+  @media (max-width: 48rem) {
+    .notdo,
+    .process {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

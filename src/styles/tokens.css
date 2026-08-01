@@ -1,0 +1,127 @@
+/* ─────────────────────────────────────────────────────────
+   Шрифты. Self-hosted woff2, font-display: swap. Раздел 2 и 5 ТЗ.
+   Никаких запросов к Google Fonts — файлы в public/fonts/ (SIL OFL, из Fontsource).
+   Подмножества cyrillic + latin, разделены по unicode-range: браузер тянет только
+   нужный subset. Редкие символы (≥, ◉, CJK) берутся из system-ui fallback :root.
+   ───────────────────────────────────────────────────────── */
+
+/* Диапазоны как у Google Fonts */
+/* cyrillic: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116 */
+/* latin:    U+0000-00FF, U+0131, U+0152-0153, U+2000-206F, ... */
+
+/* Onest 800 — только H1–H2 */
+@font-face {
+  font-family: 'Onest';
+  src: url('/fonts/onest-cyrillic-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Onest';
+  src: url('/fonts/onest-latin-800-normal.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Golos Text 400 — проза */
+@font-face {
+  font-family: 'Golos Text';
+  src: url('/fonts/golos-text-cyrillic-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Golos Text';
+  src: url('/fonts/golos-text-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* Golos Text 500 — подписи, акценты */
+@font-face {
+  font-family: 'Golos Text';
+  src: url('/fonts/golos-text-cyrillic-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'Golos Text';
+  src: url('/fonts/golos-text-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* JetBrains Mono 500 — все измеримые величины */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-cyrillic-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ─────────────────────────────────────────────────────────
+   Токены. Раздел 5.2 ТЗ — дословно, без добавлений.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  /* Бренд-палитра (замена §5.2). Строго 6 цветов + производные для тёмного/состояний.
+     60/30/10 · красный только на действии · латунь только линии/цифры/разделители. */
+  --graphite: #0E1B2E;  /* шапка, футер, тёмные секции */
+  --ivory:    #F5F2EC;  /* основной фон */
+  --red:      #B3202C;  /* действие, ключевой акцент */
+  --brass:    #C8A45C;  /* линии, иконки, цифры, разделители */
+  --slate:    #4A5567;  /* вторичный текст, метаданные */
+
+  /* Маппинг на существующие семантические токены */
+  --ink:      #1A1A1A;  /* основной текст */
+  --paper:    #F5F2EC;  /* фон = айвори */
+  --steel:    #4A5567;  /* вторичный = сине-серый */
+  --seal:     #B3202C;  /* пломба/акцент = красный */
+  --concrete: #F5F2EC;  /* блоки = айвори (различаем границей) */
+  --line:     #C8A45C;  /* границы/линии = латунь */
+  --port:     #C8A45C;  /* латунь: фокус, числа, активное, hover (кнопки → красный отдельно) */
+
+  /* Производные для тёмных секций и состояний (легибельность/интеракция, не бренд-цвета) */
+  --on-dark:       #F5F2EC;  /* текст на графите */
+  --on-dark-muted: #8A96A8;  /* вторичный на графите (AA-контраст) */
+  --red-hover:     #9A1B24;
+  --red-press:     #7E141C;
+
+  /* Типографика */
+  --font-display: 'Onest', system-ui, sans-serif;      /* 800, только H1–H2 */
+  --font-body:    'Golos Text', system-ui, sans-serif; /* 400/500, весь текст */
+  --font-data:    'JetBrains Mono', ui-monospace;      /* 500, все измеримые величины */
+
+  /* Шкала */
+  --step--1: 0.875rem;
+  --step-0:  1rem;
+  --step-1:  1.25rem;
+  --step-2:  1.75rem;
+  --step-3:  2.5rem;
+  --step-4:  clamp(2.75rem, 5vw, 4.25rem);
+
+  --radius: 2px;   /* почти прямые углы: документ, не приложение */
+  --gutter: 1.5rem;
+}

@@ -1,0 +1,121 @@
+---
+import Section from './Section.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { licenses } from '../data/licenses';
+
+/*
+  Лицензии и сертификаты. i18n-aware. Держатель — компания группы, скан по клику.
+*/
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Section title={t('lic.title')}>
+  <ul class="licenses">
+    {
+      licenses.map((l) => (
+        <li class="license">
+          <a class="license__scan" href={l.image} target="_blank" rel="noopener">
+            <img src={l.image} alt={l.name[lang]} width="1169" height="826" loading="lazy" />
+            <span class="license__view">{t('lic.view')} →</span>
+          </a>
+          <div class="license__body">
+            <h3 class="license__name">{l.name[lang]}</h3>
+            <dl class="license__meta">
+              <div>
+                <dt>{t('lic.number')}</dt>
+                <dd class="mono">{l.number}</dd>
+              </div>
+              <div>
+                <dt>{t('lic.holder')}</dt>
+                <dd lang="zh-Hans">{l.holder}</dd>
+              </div>
+              <div>
+                <dt>{t('lic.authority')}</dt>
+                <dd>{l.authority[lang]}</dd>
+              </div>
+              <div>
+                <dt>{t('lic.issued')}</dt>
+                <dd class="mono">{l.issued}</dd>
+              </div>
+            </dl>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<style>
+  .licenses {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+  .license {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .license__scan {
+    display: block;
+    position: relative;
+    border: 1px solid var(--line);
+    background: #fff;
+    padding: 6px;
+    border-radius: var(--radius);
+    text-decoration: none;
+  }
+  .license__scan img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .license__view {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--font-data);
+    font-size: var(--step--2, 0.75rem);
+    color: var(--seal);
+    text-align: center;
+  }
+  .license__name {
+    margin: 0 0 1rem;
+    font-size: var(--step-1);
+  }
+  .license__meta {
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .license__meta > div {
+    display: grid;
+    grid-template-columns: 12rem 1fr;
+    gap: 0.5rem 1rem;
+  }
+  .license__meta dt {
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .license__meta dd {
+    margin: 0;
+  }
+  .mono {
+    font-family: var(--font-data);
+  }
+  @media (max-width: 40rem) {
+    .license {
+      grid-template-columns: 1fr;
+    }
+    .license__scan {
+      max-width: 220px;
+    }
+    .license__meta > div {
+      grid-template-columns: 1fr;
+      gap: 0.1rem;
+    }
+  }
+</style>

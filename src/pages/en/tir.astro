@@ -1,0 +1,79 @@
+---
+// English /tir. Draft translation — needs proofreading.
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import CTA from '../../components/CTA.astro';
+import TirCase from '../../components/TirCase.astro';
+
+const gives = [
+  'one carnet for the whole route',
+  'no reloading at the border',
+  'one-window clearance on site',
+  'works both ways',
+];
+const backhaul = ['light industry', 'electronics', 'machinery and equipment'];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Road delivery Moscow — Manzhouli under a TIR carnet',
+  serviceType: 'TIR transport',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Road delivery under a TIR carnet, no reloading at the border, one-window clearance on site, both ways.',
+};
+---
+
+<Base
+  title="TIR Moscow — Manzhouli: road delivery without reloading"
+  description="Road delivery Moscow — Manzhouli under a TIR carnet: one carnet for the whole route, no reloading at the border, one-window clearance on site."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Road delivery Moscow — Manzhouli under a TIR carnet">
+    <div class="facts-grid">
+      <Fact id="tir_first" />
+    </div>
+  </Section>
+
+  <Section title="What TIR gives">
+    <ul class="tags">
+      {gives.map((g) => <li>{g}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="Backhaul from China">
+    <ul class="tags">
+      {backhaul.map((b) => <li>{b}</li>)}
+    </ul>
+  </Section>
+
+  <TirCase />
+
+  <Section title="Lead time and rates">
+    <p class="lead">The rate and lead time are calculated by route and volume.</p>
+    <CTA title="Calculate a slot and lead time for your consignment" label="Request a calculation" href="/en/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .lead {
+    margin-bottom: 1.5rem;
+  }
+</style>

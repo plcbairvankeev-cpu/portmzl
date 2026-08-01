@@ -1,0 +1,8 @@
+id: grain_rework_area
+value: "160"
+unit: "м²"
+label_ru: "Участок технической доработки: воздушная и фотосепарация"
+label_en: "Reconditioning area: air and optical separation"
+label_zh: "技术整改区"
+source: "进境粮食指定监管场地简介（培训版）"
+status: confirmed

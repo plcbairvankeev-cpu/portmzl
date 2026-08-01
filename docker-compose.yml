@@ -1,0 +1,17 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Конфиг сборки (пекётся в страницы). Можно переопределить в .env рядом с compose.
+        SITE_URL: ${SITE_URL:-https://kaskad03.online}
+        CONTACT_EMAIL: ${CONTACT_EMAIL:-info@kaskad03.online}
+        REPRESENTATIVE_STATUS_CONFIRMED: ${REPRESENTATIVE_STATUS_CONFIRMED:-false}
+    image: portmzl-web
+    restart: unless-stopped
+    # Рантайм-секреты и CONTACT_EMAIL для роута формы — из файла (в репозиторий не попадает).
+    env_file:
+      - .env.production
+    # Слушаем только локально; наружу отдаёт nginx (HTTPS).
+    ports:
+      - "127.0.0.1:4321:4321"

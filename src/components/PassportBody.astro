@@ -1,0 +1,188 @@
+---
+import { getEntry } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { SITE_NAME } from '../lib/site';
+import type { Lang } from '../i18n/ui';
+
+/**
+ * «Паспорт площадки» — печатный fact-sheet. Значения из фактов (всегда в синхроне),
+ * трёхъязычный. Настоящий PDF даёт браузер (печать → сохранить как PDF): CJK-шрифт есть в браузере.
+ */
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const unitMap: Record<Lang, Record<string, string>> = {
+  ru: {},
+  zh: { 'м': '米', 'м²': '平方米', 'м³': '立方米', 'т': '吨', 'км': '公里', 'фут': '尺', 'суток': '天', '¥': '元' },
+  en: { 'м': 'm', 'м²': 'm²', 'м³': 'm³', 'т': 't', 'км': 'km', 'фут': 'ft', 'суток': 'days', '¥': '¥' },
+};
+const fmtUnit = (u?: string) => (u && lang !== 'ru' ? (unitMap[lang][u] ?? u) : u);
+
+const sections: { titleKey: Parameters<typeof t>[0]; ids: string[] }[] = [
+  {
+    titleKey: 'passport.secSite',
+    ids: [
+      'distance_to_border', 'site_area', 'site_warehouses', 'parking_capacity', 'port_grade',
+      'cctv_cameras', 'cctv_retention', 'warehouse_normal_area', 'warehouse_normal_volume',
+      'warehouse_temp_area', 'warehouse_temp_volume', 'investment_total',
+    ],
+  },
+  {
+    titleKey: 'passport.secGrain',
+    ids: ['grain_capacity', 'grain_area', 'grain_corridor', 'grain_inspection_area', 'grain_hold_area', 'grain_fumigation', 'grain_rework_area', 'iso'],
+  },
+  { titleKey: 'passport.secGroup', ids: ['group_branches', 'group_staff', 'neeq_code', 'tir_first'] },
+];
+
+async function rows(ids: string[]) {
+  const out: { value: string; label: string; zh?: string; source: string; seal: boolean }[] = [];
+  for (const id of ids) {
+    const f = await getEntry('facts', id);
+    if (!f || f.data.status !== 'confirmed') continue;
+    const d = f.data;
+    const label = lang === 'zh' ? (d.label_zh ?? d.label_ru) : lang === 'en' ? (d.label_en ?? d.label_ru) : d.label_ru;
+    out.push({
+      value: [d.value, fmtUnit(d.unit)].filter(Boolean).join(' '),
+      label,
+      zh: lang !== 'zh' ? d.label_zh : undefined,
+      source: d.source,
+      seal: Boolean(d.registry),
+    });
+  }
+  return out;
+}
+
+const resolved = await Promise.all(sections.map(async (s) => ({ title: t(s.titleKey), rows: await rows(s.ids) })));
+---
+
+<article class="passport">
+  <header class="passport__head">
+    <div>
+      <h1>{t('passport.title')}</h1>
+      <p class="passport__sub">{SITE_NAME} · <span lang="zh-Hans">满洲里陆港国际物流中心</span></p>
+    </div>
+    <button class="passport__print" type="button" onclick="window.print()">{t('passport.download')}</button>
+  </header>
+
+  <p class="passport__intro">{t('passport.intro')}</p>
+
+  {
+    resolved.map((sec) => (
+      <section class="passport__sec">
+        <h2>{sec.title}</h2>
+        <table class="passport__table">
+          <tbody>
+            {sec.rows.map((r) => (
+              <tr>
+                <td class="passport__val">
+                  {r.value}
+                  {r.seal && <span class="passport__seal">◉</span>}
+                </td>
+                <td class="passport__label">
+                  {r.label}
+                  {r.zh && <span class="passport__zh" lang="zh-Hans"> · {r.zh}</span>}
+                </td>
+                <td class="passport__src">{r.source}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+    ))
+  }
+</article>
+
+<style>
+  .passport {
+    max-width: 52rem;
+  }
+  .passport__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-top: 2px solid var(--seal);
+    padding-top: 1rem;
+  }
+  .passport__head h1 {
+    margin: 0;
+    font-size: var(--step-2);
+  }
+  .passport__sub {
+    margin: 0.25rem 0 0;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .passport__print {
+    flex: none;
+    padding: 0.5rem 1rem;
+    font: inherit;
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--red);
+    border: 1px solid var(--red);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+  .passport__intro {
+    margin: 1rem 0 2rem;
+    color: var(--steel);
+    max-width: var(--measure);
+  }
+  .passport__sec {
+    margin-bottom: 1.75rem;
+    break-inside: avoid;
+  }
+  .passport__sec h2 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--step-1);
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .passport__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+  .passport__table td {
+    padding: 0.35rem 0.75rem 0.35rem 0;
+    vertical-align: baseline;
+    border-bottom: 1px solid var(--line);
+  }
+  .passport__val {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--ink);
+    white-space: nowrap;
+  }
+  .passport__seal {
+    margin-left: 0.35rem;
+    color: var(--seal);
+  }
+  .passport__label {
+    color: var(--ink);
+  }
+  .passport__zh {
+    font-family: var(--font-data);
+    color: var(--steel);
+  }
+  .passport__src {
+    color: var(--steel);
+    font-size: var(--step--1);
+  }
+
+  @media print {
+    .passport__print {
+      display: none;
+    }
+    .passport__head {
+      border-top: 2px solid #000;
+    }
+    .passport__table td {
+      padding-block: 0.2rem;
+    }
+  }
+</style>

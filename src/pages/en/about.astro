@@ -1,0 +1,74 @@
+---
+// English /about. Draft translation — needs proofreading.
+// "partner", not "representative", until REPRESENTATIVE_STATUS_CONFIRMED=true. No third-party mentions.
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import { REPRESENTATIVE_CONFIRMED } from '../../lib/site';
+
+const timeline = [
+  ['1993', 'tourism'],
+  ['2002', 'the group (口岸集团) is formed'],
+  ['2004', 'hotel'],
+  ['2006', 'real estate'],
+  ['2015', 'NEEQ listing'],
+  ['2022', 'logistics at the Manzhouli road crossing'],
+  ['2024', 'logistics centre opened'],
+  ['2025', 'A-grade dry port'],
+  ['2026', 'first TIR shipment'],
+];
+---
+
+<Base
+  title="The Port Manzhouli group and its partner in Russia"
+  description="The Port Manzhouli group: founded in 1993, 16 branches, a public company on the NEEQ exchange. Since 2022 developing logistics at the Manzhouli road crossing."
+>
+  <Section as="h1" title="The Port Manzhouli group and its partner in Russia">
+    <ol class="timeline">
+      {timeline.map(([year, text]) => (
+        <li>
+          <span class="timeline__year">{year}</span>
+          <span>{text}</span>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section title="The group in numbers">
+    <div class="facts-grid facts-grid--three">
+      <Fact id="group_branches" />
+      <Fact id="group_staff" />
+      <Fact id="neeq_code" />
+    </div>
+  </Section>
+
+  {REPRESENTATIVE_CONFIRMED && (
+    <Section title="Representative office in Russia">
+      <p class="lead">This block is published once the status document is received.</p>
+    </Section>
+  )}
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    max-width: 40rem;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .timeline__year {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+</style>

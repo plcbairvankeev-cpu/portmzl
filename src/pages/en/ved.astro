@@ -1,0 +1,110 @@
+---
+// English /ved. Draft translation — needs proofreading.
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import CTA from '../../components/CTA.astro';
+import ImportCategories from '../../components/ImportCategories.astro';
+
+const rows = [
+  ['Open a foreign-currency account', 'A contract with a Russian entity, settlement in roubles'],
+  ['Register for currency control', 'Currency control stays off your side'],
+  ['Keep foreign-trade accounting', 'An internal contract, ordinary accounting'],
+  ['Deal with customs', 'Handled by the operator on both sides of the border'],
+  ['Obtain phytosanitary, veterinary and technical certificates', 'Certification support, an export-centre expert'],
+  ['Keep a customs broker on staff', 'The brokerage function is on site'],
+  ['Run currency payments through yourself', 'Settlement does not go through the client'],
+  ['Work out the project economics yourself', 'A paid export audit as a separate product'],
+  ['Export low-margin raw materials as-is', 'Matching the product and a sales point in China'],
+];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Working with China without your own foreign-trade setup',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+};
+---
+
+<Base
+  title="Export to China without a foreign-currency account or your own foreign trade"
+  description="Working with China without your own foreign-trade setup: a contract with a Russian entity, settlement in roubles, ordinary accounting."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Working with China without your own foreign trade">
+    <p class="lead">
+      Foreign trade is not a producer's core business but an excess burden. We take it on entirely.
+    </p>
+  </Section>
+
+  <ImportCategories />
+
+  <Section title="What changes">
+    <table class="pains">
+      <thead>
+        <tr>
+          <th scope="col">Usually you have to</th>
+          <th scope="col">With us</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map(([pain, answer]) => (
+          <tr>
+            <td>{pain}</td>
+            <td>{answer}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </Section>
+
+  <Section title="How it is arranged">
+    <ul class="plain">
+      <li>a contract with a Russian legal entity</li>
+      <li>settlement in roubles</li>
+      <li>ordinary accounting on the client's side</li>
+    </ul>
+  </Section>
+
+  <Section title="What we do not promise">
+    <p class="lead">
+      The Chinese side admits goods by category and by specific accredited supplier enterprises. We do not promise an
+      unlimited range. The first step is always to check your item against the current requirements.
+    </p>
+  </Section>
+
+  <Section>
+    <CTA title="Calculate a slot and lead time for your consignment" label="Request a calculation" href="/en/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .pains {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step-0);
+  }
+  .pains th,
+  .pains td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line);
+  }
+  .pains th {
+    font-family: var(--font-body);
+    font-weight: 500;
+    background: var(--concrete);
+  }
+  .pains td:first-child {
+    color: var(--steel);
+  }
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+</style>

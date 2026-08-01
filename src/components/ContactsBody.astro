@@ -1,0 +1,296 @@
+---
+import Section from './Section.astro';
+import LeadForm from './LeadForm.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { CONTACT_EMAIL } from '../lib/site';
+import { leadership, russia, company, companyCn, messengers, cnOffice } from '../data/contacts';
+
+/*
+  Контакты, i18n-aware. Данные (имена, телефоны, e-mail) общие; подписи и должности — по языку.
+  Не выдумано: телефоны РФ/КНР, WeChat, реквизиты, ссылка на карту — плейсхолдеры. Фото — файлами в photo.
+*/
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Адрес площадки в КНР: на языке страницы; китайский оригинал показываем отдельно как авторитетный.
+const addr = lang === 'zh' ? cnOffice.addressZh : lang === 'en' ? cnOffice.addressEn : cnOffice.addressRu;
+---
+
+<Section as="h1" title={t('contacts.title')}>
+  <dl class="contacts">
+    <div>
+      <dt>{t('contacts.email')}</dt>
+      <dd><a href={`mailto:${CONTACT_EMAIL}`} class="mono">{CONTACT_EMAIL}</a></dd>
+    </div>
+    <div>
+      <dt>{t('contacts.phoneRu')}</dt>
+      <dd class="mono todo">{t('contacts.tbd')}</dd>
+    </div>
+    <div>
+      <dt>{t('contacts.phoneCn')}</dt>
+      <dd class="phones">
+        {
+          cnOffice.phones.map((p) => (
+            <a class="mono" href={`tel:${p.tel}`}>
+              {p.display}
+            </a>
+          ))
+        }
+      </dd>
+    </div>
+    <div>
+      <dt>{t('contacts.wechat')}</dt>
+      <dd class="todo">{t('contacts.wechatTodo')}</dd>
+    </div>
+  </dl>
+
+  <div class="messengers">
+    <p class="messengers__label">{t('contacts.messengers')}</p>
+    <ul class="chips">
+      {
+        messengers.map((m) =>
+          m.href ? (
+            <li>
+              <a class="chip" href={m.href} target="_blank" rel="noopener">
+                {m.label}
+              </a>
+            </li>
+          ) : (
+            <li>
+              <span class="chip chip--todo">
+                {m.label} <span class="chip__todo">· {t('contacts.msgTodo')}</span>
+              </span>
+            </li>
+          ),
+        )
+      }
+    </ul>
+  </div>
+
+  <div class="address">
+    <p class="address__label">{t('contacts.addressCn')}</p>
+    <p class="address__value">{addr}</p>
+    <p class="address__zh" lang="zh-Hans">{companyCn}</p>
+    {lang !== 'zh' && <p class="address__zh" lang="zh-Hans">{cnOffice.addressZh}</p>}
+    <p class="address__post">
+      <span class="address__post-label">{t('contacts.postcode')}</span>
+      <span class="mono">{cnOffice.postcode}</span>
+    </p>
+  </div>
+
+  <p class="map"><span class="todo">{t('contacts.mapTodo')}</span></p>
+</Section>
+
+<Section title={t('contacts.leadership')}>
+  <ul class="people">
+    {
+      leadership.map((p) => (
+        <li class="person">
+          {p.photo && (
+            <img class="person__photo" src={p.photo} alt={p.name} width="96" height="96" loading="lazy" />
+          )}
+          <div class="person__body">
+            <span class="person__name">{p.name}</span>
+            {p.nameZh && <span class="person__name-zh" lang="zh-Hans">{p.nameZh}</span>}
+            <span class="person__role">{p.role[lang]}</span>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<Section title={t('contacts.russia')}>
+  <ul class="people">
+    {
+      russia.map((p) => (
+        <li class="person">
+          {p.photo && (
+            <img class="person__photo" src={p.photo} alt={p.name} width="96" height="96" loading="lazy" />
+          )}
+          <div class="person__body">
+            <span class="person__name">{p.name}</span>
+            <span class="person__role">{p.role[lang]}</span>
+            {p.phone && (
+              <a class="person__phone mono" href={`tel:${p.tel}`}>
+                {p.phone}
+              </a>
+            )}
+            <span class="person__org">{company}</span>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</Section>
+
+<Section title={t('contacts.requisites')}>
+  <p>{company}</p>
+  <p class="todo">{t('contacts.reqTodo')}</p>
+</Section>
+
+<Section id="form" title={t('contacts.formTitle')}>
+  <LeadForm />
+</Section>
+
+<style>
+  .contacts {
+    display: grid;
+    gap: 1rem;
+    margin: 0;
+  }
+  .contacts div {
+    display: grid;
+    gap: 0.25rem;
+  }
+  .contacts dt {
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .contacts dd {
+    margin: 0;
+    font-size: var(--step-1);
+  }
+  .mono {
+    font-family: var(--font-data);
+  }
+  .todo {
+    color: var(--steel);
+    font-style: italic;
+  }
+  .map {
+    margin-top: 1.5rem;
+  }
+  .phones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+  .phones a {
+    color: var(--ink);
+    text-decoration-color: var(--brass);
+  }
+  .address {
+    margin-top: 1.5rem;
+    max-width: var(--measure);
+  }
+  .address__label {
+    margin: 0 0 0.25rem;
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .address__value {
+    margin: 0;
+    font-size: var(--step-1);
+  }
+  .address__zh {
+    margin: 0.25rem 0 0;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .address__post {
+    margin: 0.5rem 0 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    font-size: var(--step--1);
+  }
+  .address__post-label {
+    color: var(--steel);
+  }
+  .messengers {
+    margin-top: 1.5rem;
+  }
+  .messengers__label {
+    margin: 0 0 0.5rem;
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .chips {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+  }
+  .chip {
+    display: inline-block;
+    padding: 0.4rem 0.85rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--ink);
+    border: 1px solid var(--brass);
+    border-radius: var(--radius);
+    text-decoration: none;
+  }
+  a.chip:hover {
+    border-color: var(--red);
+    color: var(--red);
+  }
+  .chip--todo {
+    color: var(--steel);
+    border-color: var(--line);
+  }
+  .chip__todo {
+    font-style: italic;
+  }
+  .people {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 1.5rem;
+  }
+  .person {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .person__photo {
+    flex: none;
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    object-position: center top;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--concrete);
+  }
+  .person__body {
+    display: grid;
+    gap: 0.15rem;
+  }
+  .person__name {
+    font-weight: 500;
+    font-size: var(--step-1);
+  }
+  .person__name-zh {
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .person__role {
+    color: var(--steel);
+  }
+  .person__phone {
+    justify-self: start;
+    margin: 0.15rem 0;
+    font-size: var(--step-1);
+    color: var(--ink);
+    text-decoration-color: var(--brass);
+  }
+  .person__org {
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  @media (max-width: 48rem) {
+    .people {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

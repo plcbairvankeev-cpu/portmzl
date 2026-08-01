@@ -1,0 +1,9 @@
+id: warehouse_temp_area
+value: "10 738"
+unit: "м²"
+label_ru: "Склады постоянной температуры, площадь"
+label_en: "Temperature-controlled warehouses, area"
+label_zh: "恒温仓储库房建筑面积"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed
+note: "Формулировка «постоянной температуры», не «морозильные» (запрет 4 CLAUDE.md)."

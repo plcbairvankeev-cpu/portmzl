@@ -1,0 +1,8 @@
+id: cctv_retention
+value: "≥90"
+unit: "суток"
+label_ru: "Срок хранения видеозаписи"
+label_en: "Video retention period"
+label_zh: "监控录像保存时长"
+source: "进境粮食指定监管场地简介（培训版）"
+status: confirmed

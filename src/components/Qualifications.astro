@@ -1,0 +1,78 @@
+---
+import Section from './Section.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { qualifications } from '../data/qualifications';
+
+/*
+  Официальные статусы площадки. i18n-aware. ZH — из первоисточника.
+  «only» помечает статусы, единственные в Маньчжурии по документу компании.
+*/
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const zh = lang === 'zh';
+---
+
+<Section title={t('qual.title')}>
+  <ul class="quals">
+    {
+      qualifications.map((q) => (
+        <li class="qual">
+          {q.only && <span class="qual__badge">{t('qual.only')}</span>}
+          <span class="qual__title" lang={zh ? 'zh-Hans' : undefined}>
+            {q.title[lang]}
+            {q.note && <span class="qual__note">— {q.note[lang]}</span>}
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+  <p class="qual__source">{t('qual.source')}</p>
+</Section>
+
+<style>
+  .quals {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    max-width: var(--measure);
+  }
+  .qual {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.5rem 0.85rem;
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .qual:first-child {
+    border-top: 0;
+  }
+  .qual__badge {
+    flex: none;
+    font-family: var(--font-data);
+    font-size: var(--step--2, 0.75rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--on-dark);
+    background: var(--graphite);
+    border: 1px solid var(--graphite);
+    border-radius: var(--radius);
+    padding: 0.1rem 0.5rem;
+  }
+  .qual__title {
+    font-size: var(--step-1);
+  }
+  .qual__note {
+    color: var(--steel);
+    font-style: italic;
+    font-size: var(--step--1);
+  }
+  .qual__source {
+    margin-top: 1.5rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+</style>

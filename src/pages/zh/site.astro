@@ -1,0 +1,84 @@
+---
+/**
+ * Китайская версия /site. Текст выверен по источнику A —
+ * 公路运输类海关监管作业场所简介. Не машинный перевод. Заменяет fallback на /zh/site.
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import CTA from '../../components/CTA.astro';
+import Qualifications from '../../components/Qualifications.astro';
+import Licenses from '../../components/Licenses.astro';
+---
+
+<Base
+  title="海关监管作业场所 — 满洲里陆港国际物流中心"
+  description="距满洲里公路口岸200米的海关监管作业场所：15320平方米，智能卡口、视频监控，普通与恒温仓储库房。"
+>
+  <Section>
+    <p class="eyebrow" lang="zh-Hans">公路运输类海关监管作业场所</p>
+    <h1 lang="zh-Hans">距公路口岸200米的海关监管作业场所</h1>
+    <div class="facts-grid">
+      <Fact id="site_area" />
+      <Fact id="site_warehouses" />
+      <Fact id="parking_capacity" />
+      <Fact id="port_grade" />
+      <Fact id="cctv_cameras" />
+      <Fact id="cctv_retention" />
+      <Fact id="investment_total" />
+    </div>
+  </Section>
+
+  <Qualifications />
+
+  <Licenses />
+
+  <Section title="场地功能区">
+    <ul class="tags" lang="zh-Hans">
+      <li>大型车辆停车区</li>
+      <li>综合装卸作业区</li>
+      <li>甩挂作业专属区</li>
+      <li>集装箱吊装作业区</li>
+      <li>报关报检与车辆查验</li>
+      <li>智能卡口与视频监控</li>
+    </ul>
+  </Section>
+
+  <Section title="仓储库房">
+    <p class="stack" lang="zh-Hans">
+      普通仓储库房 — <Fact id="warehouse_normal_area" inline /> / <Fact
+        id="warehouse_normal_volume"
+        inline
+      />。<br />
+      恒温仓储库房 — <Fact id="warehouse_temp_area" inline /> / <Fact id="warehouse_temp_volume" inline />。
+    </p>
+  </Section>
+
+  {/* 场地照片：暂无自有照片，不使用图库图片。 */}
+
+  <Section>
+    <CTA title="核算您货物的时段与时间" label="索取核算" href="/zh/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .stack {
+    font-size: var(--step-1);
+    line-height: 1.8;
+  }
+</style>

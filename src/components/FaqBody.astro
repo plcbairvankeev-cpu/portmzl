@@ -1,0 +1,75 @@
+---
+import Section from './Section.astro';
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+import { getFaq } from '../i18n/content/faq';
+
+/*
+  FAQ, i18n-aware. Контент из src/i18n/content/faq.ts. ZH — черновик на сверку.
+  FAQPage JSON-LD собирается на странице и передаётся в Base (в head).
+*/
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { c, translated } = getFaq(lang);
+const auditForm = localizePath('/audit', lang) + '#form';
+const zh = lang === 'zh';
+---
+
+{!translated && <p class="i18n-notice">{t('notice.untranslated')}</p>}
+
+<Section as="h1" title={c.title}>
+  <p class="lead" lang={zh ? 'zh-Hans' : undefined}>{c.intro}</p>
+</Section>
+
+<Section>
+  <dl class="faq" lang={zh ? 'zh-Hans' : undefined}>
+    {
+      c.items.map((it) => (
+        <div class="faq__item">
+          <dt class="faq__q">{it.q}</dt>
+          <dd class="faq__a">{it.a}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</Section>
+
+<Section id="cta">
+  <p class="faq__cta">
+    <span lang={zh ? 'zh-Hans' : undefined}>{c.ctaText}</span>
+    <a class="button" href={auditForm}>{c.ctaLink}</a>
+  </p>
+</Section>
+
+<style>
+  .faq {
+    margin: 0;
+    display: grid;
+    gap: 0;
+    max-width: var(--measure);
+  }
+  .faq__item {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .faq__item:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+  .faq__q {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--step-1);
+    color: var(--ink);
+  }
+  .faq__a {
+    margin: 0.5rem 0 0;
+    color: var(--steel);
+  }
+  .faq__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    font-weight: 500;
+  }
+</style>

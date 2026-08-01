@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import ContactsBody from '../../components/ContactsBody.astro';
+import { useTranslations, getLangFromUrl } from '../../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Base title={t('contacts.metaTitle')} description={t('contacts.metaDesc')}>
+  <ContactsBody />
+</Base>

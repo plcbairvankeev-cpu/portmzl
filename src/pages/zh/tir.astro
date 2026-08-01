@@ -1,0 +1,66 @@
+---
+/**
+ * Китайская версия /tir. Термины по источникам A (TIR跨境运输、一站式) и I (回程货).
+ * Тарифы/сроки — pending, вместо цифр «按路线与货量核算». Черновик, нужна сверка.
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import CTA from '../../components/CTA.astro';
+import TirCase from '../../components/TirCase.astro';
+
+const gives = ['全程一本证册', '边境无需换装', '场地一站式办理', '双向通行'];
+const backhaul = ['轻工产品', '电子产品', '机电设备'];
+---
+
+<Base
+  title="莫斯科—满洲里 TIR 公路直达 — 满洲里陆港国际物流中心"
+  description="凭TIR证册莫斯科—满洲里公路直达：全程一本证册、边境无需换装、场地一站式办理，双向通行。"
+>
+  <Section>
+    <h1 lang="zh-Hans">凭 TIR 证册莫斯科—满洲里公路直达</h1>
+    <div class="facts-grid">
+      <Fact id="tir_first" />
+    </div>
+  </Section>
+
+  <Section title="TIR 的优势">
+    <ul class="tags" lang="zh-Hans">
+      {gives.map((g) => <li>{g}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="中国回程货">
+    <ul class="tags" lang="zh-Hans">
+      {backhaul.map((b) => <li>{b}</li>)}
+    </ul>
+  </Section>
+
+  <TirCase />
+
+  <Section title="时限与费用">
+    <p class="lead" lang="zh-Hans">时限与费用按路线与货量核算。</p>
+    <CTA title="核算您货物的时段与时间" label="索取核算" href="/zh/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .lead {
+    margin-bottom: 1.5rem;
+  }
+</style>

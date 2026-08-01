@@ -1,0 +1,40 @@
+---
+import { languages, locales } from '../i18n/ui';
+import { localizePath, getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const current = getLangFromUrl(Astro.url);
+const t = useTranslations(current);
+const path = Astro.url.pathname;
+---
+
+<nav class="langswitch" aria-label={t('a11y.langSwitch')}>
+  {
+    locales.map((l) => (
+      <a
+        href={localizePath(path, l)}
+        lang={l}
+        hreflang={l}
+        aria-current={l === current ? 'true' : undefined}
+      >
+        {languages[l]}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .langswitch {
+    display: flex;
+    gap: 0.75rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+  }
+  .langswitch a {
+    color: var(--on-dark-muted);
+    text-decoration: none;
+  }
+  .langswitch a:hover,
+  .langswitch a[aria-current='true'] {
+    color: var(--brass);
+  }
+</style>

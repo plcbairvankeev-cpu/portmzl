@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.local
+.DS_Store
+npm-debug.log*
+
+# Внутренние рабочие материалы (стратегия, ТЗ, исходные сканы) — не в удалённый репозиторий.
+docs/

@@ -1,0 +1,125 @@
+---
+/**
+ * Китайская версия /grain. Текст выверен по источникам:
+ * B — 进境粮食指定监管场地简介（培训版）, I — 项目展板 (номенклатура).
+ * Не машинный перевод с русского. Заменяет fallback-копию на /zh/grain.
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import CTA from '../../components/CTA.astro';
+
+const nomenclature = ['油菜籽', '亚麻籽', '荞麦', '燕麦', '葵花籽', '玉米', '大豆', '水稻'];
+
+const stages = [
+  '沿粮食专用通道进场',
+  '遮雨棚接卸平台接卸',
+  '海关查验',
+  '实验室初筛检验',
+  '仓储暂存',
+  '出区放行',
+];
+---
+
+<Base
+  title="进境粮食指定监管场地 — 满洲里陆港国际物流中心"
+  description="满洲里口岸进境粮食指定监管场地：粮食专用通道、就地熏蒸与技术整改、ISO9001，总库容95600立方米。"
+>
+  <Section>
+    <p class="eyebrow" lang="zh-Hans">进境粮食指定监管场地</p>
+    <h1 lang="zh-Hans">满洲里陆港进境粮食指定监管场地</h1>
+    <p class="lead" lang="zh-Hans">
+      场地按照中国海关总署《海关指定监管场地管理规范》建设，纳入“中俄新陆上粮食走廊”项目，为进境粮食提供查验、检疫处理与仓储的全流程闭环管理。
+    </p>
+  </Section>
+
+  <Section>
+    <div class="facts-grid">
+      <Fact id="grain_capacity" />
+      <Fact id="grain_area" />
+      <Fact id="grain_corridor" />
+      <Fact id="grain_inspection_area" />
+      <Fact id="grain_hold_area" />
+      <Fact id="grain_fumigation" />
+      <Fact id="grain_rework_area" />
+      <Fact id="iso" />
+    </div>
+  </Section>
+
+  <Section title="进口品类">
+    <ul class="tags" lang="zh-Hans">
+      {nomenclature.map((n) => <li>{n}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="货物流程">
+    <ol class="stages" lang="zh-Hans">
+      {stages.map((s) => <li>{s}</li>)}
+    </ol>
+    <p class="stages__note" lang="zh-Hans">
+      检验检疫不合格的货物进入海关暂不放行区，就地熏蒸或技术整改（风选、色选）。
+    </p>
+  </Section>
+
+  <Section title="为什么重要">
+    <p class="reason" lang="zh-Hans">
+      出口的瓶颈不在寻找买家，而在中国侧的通关与处理能力。本场地提供就地查验、检疫处理与仓储，压缩海关作业时间、加快货物周转。
+    </p>
+  </Section>
+
+  <Section>
+    <CTA title="核算您货物的通关时间与费用" label="索取核算" href="/zh/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: var(--font-data);
+    font-weight: 500;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+  .stages {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+    counter-reset: stage;
+    max-width: 44rem;
+  }
+  .stages li {
+    counter-increment: stage;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .stages li::before {
+    content: counter(stage, decimal-leading-zero);
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+  .stages__note {
+    margin-top: 1rem;
+    color: var(--steel);
+    max-width: var(--measure);
+  }
+  .reason {
+    max-width: var(--measure);
+  }
+</style>

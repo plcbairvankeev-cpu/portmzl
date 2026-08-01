@@ -1,0 +1,9 @@
+id: warehouse_temp_volume
+value: "37 000"
+unit: "м³"
+label_ru: "Склады постоянной температуры, объём"
+label_en: "Temperature-controlled warehouses, volume"
+label_zh: "恒温仓储库房库容"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed
+note: "Формулировка «постоянной температуры», не «морозильные» (запрет 4 CLAUDE.md)."

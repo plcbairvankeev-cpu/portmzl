@@ -1,0 +1,84 @@
+---
+/**
+ * Китайская версия /about. Хронология и факты выверены по источнику H —
+ * 口岸集团发展历程 (годы 1993–2022, NEEQ 834558), плюс A (2024/2025) и C (2026 TIR).
+ * «合作伙伴», не 代表处 (запрет 6). Без Росконгресса и третьих логотипов (запрет 3).
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Fact from '../../components/Fact.astro';
+import { REPRESENTATIVE_CONFIRMED } from '../../lib/site';
+
+// Годы — датированные вехи (mono), не через механизм фактов.
+const timeline = [
+  ['1993', '旅游（收购满洲里口岸国际旅行社）'],
+  ['2002', '满洲里口岸集团成立'],
+  ['2004', '酒店（满洲里口岸国际大酒店）'],
+  ['2006', '房地产开发'],
+  ['2015', '新三板挂牌（股票代码 834558）'],
+  ['2022', '物流（满洲里公路口岸）'],
+  ['2024', '陆港国际物流中心建成运营'],
+  ['2025', 'A级陆港'],
+  ['2026', 'TIR首发'],
+];
+---
+
+<Base
+  title="满洲里口岸集团及其俄罗斯合作伙伴"
+  description="满洲里口岸集团：始创于1993年，16家分公司，新三板挂牌公司。自2022年起在满洲里公路口岸发展物流业务。"
+>
+  <Section as="h1" title="满洲里口岸集团及其俄罗斯合作伙伴">
+    <p class="lead" lang="zh-Hans">
+      满洲里口岸集团始创于1993年，以文化旅游为支撑，多元发展房地产与国际贸易物流，并在新三板挂牌。自2022年起在满洲里公路口岸发展物流业务。
+    </p>
+    <ol class="timeline" lang="zh-Hans">
+      {
+        timeline.map(([year, text]) => (
+          <li>
+            <span class="timeline__year">{year}</span>
+            <span>{text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section title="集团数据">
+    <div class="facts-grid facts-grid--three">
+      <Fact id="group_branches" />
+      <Fact id="group_staff" />
+      <Fact id="neeq_code" />
+    </div>
+  </Section>
+
+  {/* 关于俄罗斯代表处的板块仅在 REPRESENTATIVE_STATUS_CONFIRMED=true 时展示（запрет 6）。 */}
+  {REPRESENTATIVE_CONFIRMED && (
+    <Section title="俄罗斯代表处">
+      <p class="lead" lang="zh-Hans">获得代表身份文件后补充本板块。</p>
+    </Section>
+  )}
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    max-width: 40rem;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .timeline__year {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+</style>

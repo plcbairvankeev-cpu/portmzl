@@ -1,0 +1,84 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Fact from '../components/Fact.astro';
+import { SELF_NOUN, REPRESENTATIVE_CONFIRMED } from '../lib/site';
+
+// Годы — датированные вехи из docs/01, раздел 2. Набираются mono (проверяемые даты),
+// но не через механизм фактов: это точки истории, а не измеримые величины.
+const timeline = [
+  ['1993', 'туризм'],
+  ['2002', 'образование группы «口岸集团»'],
+  ['2004', 'гостиница'],
+  ['2006', 'недвижимость'],
+  ['2015', 'выход на биржу NEEQ'],
+  ['2022', 'логистика на автомобильном переходе'],
+  ['2024', 'ввод логистического центра'],
+  ['2025', 'категория «A»'],
+  ['2026', 'первая отправка TIR'],
+];
+---
+
+<Base
+  title="Группа «Порт Маньчжурия» и партнёр в России"
+  description="Группа «Порт Маньчжурия»: основана в 1993 году, 16 филиалов, публичная компания на бирже NEEQ. С 2022 года развивает логистику на автомобильном переходе Маньчжурия."
+>
+  <Section as="h1" title={`Группа «Порт Маньчжурия» и ${SELF_NOUN} в России`}>
+    <ol class="timeline">
+      {
+        timeline.map(([year, text]) => (
+          <li>
+            <span class="timeline__year">{year}</span>
+            <span>{text}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </Section>
+
+  <Section title="Группа в цифрах">
+    <div class="facts-grid facts-grid--three">
+      <Fact id="group_branches" />
+      <Fact id="group_staff" />
+      <Fact id="neeq_code" />
+    </div>
+  </Section>
+
+  {/*
+    Блок о представительстве публикуется только при REPRESENTATIVE_STATUS_CONFIRMED=true
+    (§6.7, запрет 6 CLAUDE.md). Пока документа о статусе нет — блок не выводится,
+    в тексте используется «партнёр в России».
+  */}
+  {REPRESENTATIVE_CONFIRMED && (
+    <Section title="Представительство в России">
+      <p class="lead">
+        Блок публикуется после получения документа о статусе представителя. Текст добавляется вместе
+        с документом.
+      </p>
+    </Section>
+  )}
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    max-width: 40rem;
+  }
+  .timeline li {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 1rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .timeline__year {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+</style>

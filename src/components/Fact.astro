@@ -1,0 +1,235 @@
+---
+/**
+ * Fact.astro — единственный способ вывести число на сайте.
+ *
+ * Два режима:
+ *   <Fact id="grain_capacity" />          плашка (раздел 5.3 ТЗ)
+ *   <Fact id="distance_to_border" inline /> значение в строку, внутри прозы
+ *
+ * Поведение по статусу (раздел 4.2 ТЗ):
+ *   confirmed  → рендерится
+ *   pending    → в production роняет билд; в dev — красная заглушка
+ *   disputed   → в production роняет билд; в dev — красная заглушка с текстом расхождения
+ *
+ * Пломба ◉ появляется только там, где заполнен registry, то есть где факт
+ * проверяется в публичном реестре без обращения к нам.
+ */
+import { getEntry } from 'astro:content';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+interface Props {
+  id: string;
+  inline?: boolean;
+}
+
+const { id, inline = false } = Astro.props;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const fact = await getEntry('facts', id);
+
+if (!fact) {
+  throw new Error(
+    `Факт «${id}» не найден. Ожидается файл src/content/facts/${id}.yaml. ` +
+      `Проверьте имя файла: id факта — это имя файла без расширения.`
+  );
+}
+
+const d = fact.data;
+const ok = d.status === 'confirmed';
+
+if (!ok && import.meta.env.PROD) {
+  throw new Error(
+    `Факт «${id}» имеет статус ${d.status} и не может быть опубликован. ` +
+      `Источник: ${d.source}. ` +
+      (d.note ? `Примечание: ${d.note}. ` : '') +
+      `Подтвердите данные или уберите вызов со страницы.`
+  );
+}
+
+// Единицы измерения локализуются (значение — общее, единица — на языке страницы).
+const unitMap: Record<'zh' | 'en', Record<string, string>> = {
+  zh: { 'м': '米', 'м²': '平方米', 'м³': '立方米', 'т': '吨', 'км': '公里', 'фут': '尺', 'суток': '天', '¥': '元', '¥/т': '元/吨', '¥/рейс': '元/趟' },
+  en: { 'м': 'm', 'м²': 'm²', 'м³': 'm³', 'т': 't', 'км': 'km', 'фут': 'ft', 'суток': 'days', '¥': '¥', '¥/т': '¥/t', '¥/рейс': '¥/trip' },
+};
+const unitText =
+  d.unit && (lang === 'zh' || lang === 'en') ? (unitMap[lang][d.unit] ?? d.unit) : d.unit;
+const valueText = [d.value, unitText].filter(Boolean).join(' ');
+const verifiable = Boolean(d.registry);
+
+// Основная подпись — на языке страницы, с откатом на русский.
+// Китайский термин остаётся второй строкой (кроме zh-страниц) — он полезен клиенту в переписке с КНР.
+const primaryLabel =
+  lang === 'zh' ? (d.label_zh ?? d.label_ru) : lang === 'en' ? (d.label_en ?? d.label_ru) : d.label_ru;
+const showZhCaption = lang !== 'zh' && Boolean(d.label_zh);
+---
+
+{
+  ok && inline && <span class="fact-inline">{valueText}</span>
+}
+
+{
+  ok && !inline && (
+    <figure class="fact">
+      <div class="fact__head">
+        <span class="fact__value">{valueText}</span>
+        {verifiable && (
+          <span class="fact__seal" role="img" aria-label={t('fact.seal')}>
+            ◉
+          </span>
+        )}
+      </div>
+
+      <figcaption class="fact__label">{primaryLabel}</figcaption>
+      {showZhCaption && (
+        <p class="fact__label-zh" lang="zh-Hans">
+          {d.label_zh}
+        </p>
+      )}
+
+      <div class="fact__meta">
+        <p class="fact__source">{t('fact.source')}: {d.source}</p>
+        {d.registry && <p class="fact__registry">{t('fact.registry')}: {d.registry}</p>}
+        {d.note && <p class="fact__note">{d.note}</p>}
+      </div>
+    </figure>
+  )
+}
+
+{
+  !ok && (
+    <span class:list={['fact-stub', inline && 'fact-stub--inline']}>
+      <strong>{d.status === 'pending' ? 'НЕТ ДАННЫХ' : 'РАСХОЖДЕНИЕ'}</strong>
+      <code>{id} · status: {d.status}</code>
+      <span class="fact-stub__text">
+        {d.status === 'pending'
+          ? `Ждёт подтверждения. Источник: ${d.source}.`
+          : `Значения расходятся. ${d.note ?? `Источник: ${d.source}.`}`}
+      </span>
+      <span class="fact-stub__warn">Эта страница не соберётся в production, пока факт не подтверждён.</span>
+    </span>
+  )
+}
+
+<style>
+  /* ── Плашка факта ─────────────────────────────────────── */
+  .fact {
+    margin: 0;
+    padding: calc(var(--gutter) * 0.75);
+    background: var(--concrete);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .fact__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .fact__value {
+    font-family: var(--font-data);
+    font-weight: 500;
+    font-size: var(--step-2);
+    line-height: 1.1;
+    color: var(--ink);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Единственное место на сайте, где используется --seal */
+  .fact__seal {
+    font-size: var(--step-0);
+    line-height: 1.4;
+    color: var(--seal);
+    flex: none;
+  }
+
+  .fact__label {
+    margin: 0.5rem 0 0;
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--step-0);
+    color: var(--ink);
+  }
+
+  .fact__label-zh {
+    margin: 0.125rem 0 0;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+
+  .fact__meta {
+    margin-top: 0.75rem;
+    padding-top: 0.625rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .fact__meta p {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: var(--step--1);
+    line-height: 1.45;
+    color: var(--steel);
+  }
+
+  .fact__meta p + p {
+    margin-top: 0.25rem;
+  }
+
+  /* ── Значение внутри строки текста ────────────────────── */
+  .fact-inline {
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: inherit;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* ── Заглушка. Видна только в dev ─────────────────────── */
+  .fact-stub {
+    display: block;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--seal);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--seal) 6%, transparent);
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--seal);
+  }
+
+  .fact-stub--inline {
+    display: inline-block;
+    padding: 0.0625rem 0.375rem;
+    vertical-align: baseline;
+  }
+
+  .fact-stub strong {
+    letter-spacing: 0.04em;
+  }
+
+  .fact-stub code {
+    font-family: var(--font-data);
+    opacity: 0.85;
+  }
+
+  .fact-stub__text,
+  .fact-stub__warn {
+    display: block;
+    color: var(--steel);
+  }
+
+  .fact-stub--inline .fact-stub__text,
+  .fact-stub--inline .fact-stub__warn {
+    display: none;
+  }
+
+  .fact-stub__warn {
+    margin-top: 0.25rem;
+    font-size: var(--step--1);
+    opacity: 0.8;
+  }
+</style>

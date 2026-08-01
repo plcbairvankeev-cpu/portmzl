@@ -1,0 +1,8 @@
+id: site_warehouses
+value: "15 452"
+unit: "м²"
+label_ru: "Складские помещения на площадке контроля"
+label_en: "Warehouses on the control site"
+label_zh: "仓储库房总建筑面积"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed

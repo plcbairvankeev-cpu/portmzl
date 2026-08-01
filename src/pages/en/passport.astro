@@ -1,0 +1,11 @@
+---
+import Base from '../../layouts/Base.astro';
+import PassportBody from '../../components/PassportBody.astro';
+import { useTranslations, getLangFromUrl } from '../../i18n/utils';
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Base title={t('passport.title')} description={t('passport.metaDesc')}>
+  <PassportBody />
+</Base>

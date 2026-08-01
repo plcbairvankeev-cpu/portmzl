@@ -1,0 +1,214 @@
+---
+/**
+ * CorridorStrip — полоса коридора для героя главной. Раздел 5.4 ТЗ.
+ * Вместо карты с булавками (запрещена): линейная схема маршрута, mono-подписи.
+ *
+ * УЛАН-УДЭ ──[?]── ЗАБАЙКАЛЬСК ═╣ГРАНИЦА╠═ МАНЬЧЖУРИЯ ──[200 м]── ПЛОЩАДКА
+ *
+ * Расстояния — измеримые величины, поэтому берутся из фактов, а не пишутся в разметку
+ * (главное правило CLAUDE.md). distance_to_border (200 м) confirmed — показывается.
+ * distance_ulanude_border pending — сегмент рисуется БЕЗ числа и не роняет страницу:
+ * непроверенное число на сайт не попадает, но полоса остаётся целой.
+ *
+ * Ориентация: flex-строка на десктопе, flex-колонка на мобильном (§5.4 «переходит
+ * в вертикальную»). Один монолитный SVG так переориентироваться не может, поэтому
+ * схема собрана на flex + CSS-линиях; растровых изображений и карты нет.
+ *
+ * --seal — только на отметке границы (единственное допустимое место, помимо пломбы факта).
+ */
+import { getEntry } from 'astro:content';
+import { getLangFromUrl } from '../i18n/utils';
+import type { Lang } from '../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+
+// Топонимы маршрута по языкам. Русский — источник; zh/en — сверенные названия.
+const L: Record<Lang, { ulanude: string; zabaikalsk: string; border: string; manzhouli: string; site: string; route: string }> = {
+  ru: { ulanude: 'УЛАН-УДЭ', zabaikalsk: 'ЗАБАЙКАЛЬСК', border: 'ГРАНИЦА', manzhouli: 'МАНЬЧЖУРИЯ', site: 'ПЛОЩАДКА', route: 'Маршрут: Улан-Удэ — Забайкальск — граница — Маньчжурия — площадка' },
+  zh: { ulanude: '乌兰乌德', zabaikalsk: '后贝加尔斯克', border: '国境', manzhouli: '满洲里', site: '场地', route: '路线：乌兰乌德 — 后贝加尔斯克 — 国境 — 满洲里 — 场地' },
+  en: { ulanude: 'ULAN-UDE', zabaikalsk: 'ZABAYKALSK', border: 'BORDER', manzhouli: 'MANZHOULI', site: 'SITE', route: 'Route: Ulan-Ude — Zabaykalsk — border — Manzhouli — site' },
+};
+const t = L[lang];
+
+// Единица расстояния — на языке страницы.
+const unitMap: Record<Lang, Record<string, string>> = {
+  ru: {}, zh: { 'м': '米', 'км': '公里' }, en: { 'м': 'm', 'км': 'km' },
+};
+async function dist(id: string): Promise<string | null> {
+  const f = await getEntry('facts', id);
+  if (!f || f.data.status !== 'confirmed') return null;
+  const unit = f.data.unit ? (unitMap[lang][f.data.unit] ?? f.data.unit) : '';
+  return [f.data.value, unit].filter(Boolean).join(' ');
+}
+
+const dUlan = await dist('distance_ulanude_border'); // pending → null
+const dSite = await dist('distance_to_border');
+---
+
+<figure class="corridor" role="img" aria-label={t.route}>
+  <ol class="corridor__track" aria-hidden="true">
+    <li class="corridor__node" lang={lang}>{t.ulanude}</li>
+
+    <li class="corridor__seg">
+      <span class="corridor__line"></span>
+      {dUlan && <span class="corridor__dist">{dUlan}</span>}
+    </li>
+
+    <li class="corridor__node" lang={lang}>{t.zabaikalsk}</li>
+
+    <li class="corridor__seg corridor__seg--border">
+      <span class="corridor__line corridor__line--border"></span>
+      <span class="corridor__border" lang={lang}>{t.border}</span>
+    </li>
+
+    <li class="corridor__node" lang={lang}>{t.manzhouli}</li>
+
+    <li class="corridor__seg">
+      <span class="corridor__line"></span>
+      {dSite && <span class="corridor__dist">{dSite}</span>}
+    </li>
+
+    <li class="corridor__node corridor__node--target" lang={lang}>{t.site}</li>
+  </ol>
+</figure>
+
+<style>
+  .corridor {
+    margin: 0;
+    width: 100%;
+  }
+
+  .corridor__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+    font-family: var(--font-data);
+    font-weight: 500;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+
+  .corridor__node {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+    padding: 0.25rem 0;
+  }
+
+  .corridor__node--target {
+    color: var(--port);
+  }
+
+  /* Сегмент между узлами: линия + подпись расстояния над ней */
+  .corridor__seg {
+    flex: 1 1 auto;
+    min-width: 1.5rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .corridor__line {
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: var(--brass);
+  }
+
+  .corridor__dist {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 0.15rem;
+    padding: 0 0.35rem;
+    background: var(--paper);
+    color: var(--steel);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Отметка границы — единственное место --seal, помимо пломбы факта */
+  .corridor__line--border {
+    height: 3px;
+    background: var(--seal);
+  }
+
+  .corridor__border {
+    position: absolute;
+    bottom: 100%;
+    margin-bottom: 0.15rem;
+    padding: 0 0.35rem;
+    background: var(--paper);
+    color: var(--seal);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* Появление слева направо, один раз, ~600 мс. Раздел 5.4 ТЗ. */
+  @media (prefers-reduced-motion: no-preference) {
+    .corridor__track {
+      animation: corridor-reveal 600ms ease-out both;
+    }
+  }
+
+  @keyframes corridor-reveal {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* На мобильном полоса становится вертикальной. Раздел 5.4 ТЗ. */
+  @media (max-width: 40rem) {
+    .corridor__track {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.15rem;
+    }
+
+    .corridor__node {
+      padding: 0.15rem 0;
+    }
+
+    .corridor__seg {
+      width: auto;
+      min-width: 0;
+      min-height: 1.75rem;
+      justify-content: flex-start;
+      margin-left: 0.5rem;
+    }
+
+    .corridor__line {
+      width: 1px;
+      height: 100%;
+    }
+
+    .corridor__line--border {
+      width: 3px;
+      height: 100%;
+    }
+
+    .corridor__dist,
+    .corridor__border {
+      position: static;
+      margin: 0 0 0 0.6rem;
+      padding: 0;
+      background: none;
+    }
+
+    @keyframes corridor-reveal {
+      from {
+        clip-path: inset(0 0 100% 0);
+      }
+      to {
+        clip-path: inset(0 0 0 0);
+      }
+    }
+  }
+</style>

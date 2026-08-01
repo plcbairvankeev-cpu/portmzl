@@ -1,0 +1,8 @@
+id: grain_inspection_area
+value: "1 200"
+unit: "м²"
+label_ru: "Зона таможенного досмотра"
+label_en: "Customs inspection zone"
+label_zh: "海关查验区"
+source: "进境粮食指定监管场地简介（培训版）"
+status: confirmed

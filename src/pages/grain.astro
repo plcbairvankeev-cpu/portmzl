@@ -1,0 +1,141 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Fact from '../components/Fact.astro';
+import CTA from '../components/CTA.astro';
+
+const nomenclature = ['рапс', 'лён', 'гречиха', 'овёс', 'подсолнечник', 'кукуруза', 'соя', 'рис'];
+
+const stages = [
+  'подход по выделенному коридору',
+  'приёмка на платформе под навесом',
+  'таможенный досмотр',
+  'первичный скрининг в лаборатории',
+  'хранение',
+  'выпуск',
+];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Экспорт зерна и масличных через переход Маньчжурия',
+  serviceType: 'Назначенная площадка ввозного зерна',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Назначенная площадка ввозного зерна на переходе Маньчжурия: выделенный коридор, фумигация, техническая доработка на месте, ISO 9001.',
+};
+---
+
+<Base
+  title="Зерновой коридор Маньчжурия — площадка ввозного зерна"
+  description="Назначенная площадка ввозного зерна на переходе Маньчжурия: 95 600 м³, выделенный коридор, фумигация, техническая доработка на месте, ISO 9001."
+  jsonLd={serviceJsonLd}
+>
+  <Section>
+    <p class="eyebrow" lang="zh-Hans">进境粮食指定监管场地</p>
+    <h1>Назначенная площадка ввозного зерна на переходе Маньчжурия</h1>
+    <p class="lead">
+      Площадка построена по нормам Главного таможенного управления КНР и работает в контуре проекта
+      китайско-российского зернового сухопутного коридора.
+    </p>
+  </Section>
+
+  <Section>
+    <div class="facts-grid">
+      <Fact id="grain_capacity" />
+      <Fact id="grain_area" />
+      <Fact id="grain_corridor" />
+      <Fact id="grain_inspection_area" />
+      <Fact id="grain_hold_area" />
+      <Fact id="grain_fumigation" />
+      <Fact id="grain_rework_area" />
+      <Fact id="iso" />
+    </div>
+  </Section>
+
+  <Section title="Номенклатура">
+    <ul class="tags">
+      {nomenclature.map((n) => <li>{n}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="Что происходит с партией">
+    <ol class="stages">
+      {stages.map((s) => <li>{s}</li>)}
+    </ol>
+    <p class="stages__note">
+      При несоответствии — зона задержания, фумигация или техническая доработка на месте, без возврата
+      партии в Россию.
+    </p>
+  </Section>
+
+  <Section title="Почему это важно">
+    <p class="reason">
+      Узкое место экспорта — не поиск покупателя, а режим и мощность на китайской стороне. Партия, не
+      прошедшая фитосанитарный контроль, на обычном терминале едет назад. Здесь она проходит доработку
+      на месте.
+    </p>
+  </Section>
+
+  <Section>
+    <CTA
+      title="Рассчитать слот и срок по вашей партии"
+      label="Заказать расчёт"
+      href="/audit#form"
+    />
+  </Section>
+</Base>
+
+<style>
+  .tags {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: var(--font-data);
+    font-weight: 500;
+  }
+  .tags li {
+    padding: 0.375rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--concrete);
+    font-size: var(--step--1);
+  }
+
+  .stages {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0;
+    counter-reset: stage;
+    max-width: 44rem;
+  }
+  .stages li {
+    counter-increment: stage;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .stages li::before {
+    content: counter(stage, decimal-leading-zero);
+    font-family: var(--font-data);
+    font-weight: 500;
+    color: var(--port);
+  }
+  .stages__note {
+    margin-top: 1rem;
+    color: var(--steel);
+    max-width: var(--measure);
+  }
+  .reason {
+    max-width: var(--measure);
+  }
+</style>

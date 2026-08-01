@@ -1,0 +1,23 @@
+---
+/**
+ * Китайская версия FAQ. Перевод — ЧЕРНОВИК на сверку носителем.
+ */
+import Base from '../../layouts/Base.astro';
+import FaqBody from '../../components/FaqBody.astro';
+import { getFaq } from '../../i18n/content/faq';
+
+const { c } = getFaq('zh');
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.items.map((it) => ({
+    '@type': 'Question',
+    name: it.q,
+    acceptedAnswer: { '@type': 'Answer', text: it.a },
+  })),
+};
+---
+
+<Base title={c.meta.title} description={c.meta.description} jsonLd={faqJsonLd}>
+  <FaqBody />
+</Base>

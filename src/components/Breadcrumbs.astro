@@ -1,0 +1,83 @@
+---
+import { getLangFromUrl, useTranslations, localizePath, stripLang } from '../i18n/utils';
+import type { UiKey } from '../i18n/ui';
+import { SITE_URL } from '../lib/site';
+
+/**
+ * Хлебные крошки: Главная / Текущая. Показываются на всех страницах, кроме главной.
+ * i18n + микроразметка BreadcrumbList (SEO).
+ */
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const path = stripLang(Astro.url.pathname).replace(/\/+$/, '') || '/';
+
+const map: Partial<Record<string, UiKey>> = {
+  '/site': 'nav.site',
+  '/grain': 'nav.grain',
+  '/tir': 'nav.tir',
+  '/ved': 'nav.ved',
+  '/audit': 'nav.audit',
+  '/about': 'nav.about',
+  '/contacts': 'contacts.title',
+  '/passport': 'passport.title',
+  '/legal/privacy': 'footer.privacy',
+  '/legal/consent': 'footer.consent',
+};
+const key = map[path];
+
+const base = Astro.site ?? new URL(SITE_URL);
+const homeUrl = new URL(localizePath('/', lang), base).href;
+const currentUrl = new URL(Astro.url.pathname, base).href;
+
+const jsonLd = key
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: t('nav.home'), item: homeUrl },
+        { '@type': 'ListItem', position: 2, name: t(key), item: currentUrl },
+      ],
+    }
+  : null;
+---
+
+{
+  key && (
+    <nav class="breadcrumbs container" aria-label="breadcrumbs">
+      <a href={localizePath('/', lang)}>{t('nav.home')}</a>
+      <span class="breadcrumbs__sep" aria-hidden="true">/</span>
+      <span class="breadcrumbs__current" aria-current="page">
+        {t(key)}
+      </span>
+    </nav>
+  )
+}
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />}
+
+<style>
+  .breadcrumbs {
+    padding-block: 0.75rem 0;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .breadcrumbs a {
+    color: var(--steel);
+    text-decoration: none;
+  }
+  .breadcrumbs a:hover {
+    color: var(--port);
+  }
+  .breadcrumbs__sep {
+    margin: 0 0.5rem;
+    color: var(--line);
+  }
+  .breadcrumbs__current {
+    color: var(--ink);
+  }
+  @media print {
+    .breadcrumbs {
+      display: none;
+    }
+  }
+</style>

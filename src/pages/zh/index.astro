@@ -1,0 +1,12 @@
+---
+import Base from '../../layouts/Base.astro';
+import HomeBody from '../../components/HomeBody.astro';
+import { getHome } from '../../i18n/content/home';
+import { getLangFromUrl } from '../../i18n/utils';
+
+const { c } = getHome(getLangFromUrl(Astro.url));
+---
+
+<Base title={c.meta.title} description={c.meta.description}>
+  <HomeBody />
+</Base>

@@ -1,0 +1,99 @@
+---
+// English /audit. Draft translation — needs proofreading. LeadForm localises itself.
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import LeadForm from '../../components/LeadForm.astro';
+
+const included = [
+  'HS / commodity code of the item',
+  'the applicable regime on the Chinese side',
+  'requirements for this category',
+  'whether accredited sites exist for it',
+  'a price benchmark in China',
+  'a logistics benchmark',
+  'a margin range',
+  'a document checklist',
+];
+const excluded = ['finding a buyer', 'legal support of the contract', 'a guarantee that the goods pass'];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Export audit of your goods',
+  serviceType: 'Export audit',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+};
+---
+
+<Base
+  title="Export audit of your goods — will your goods pass in China"
+  description="Export audit: HS code, the applicable regime on the Chinese side, category requirements, price and logistics benchmarks, a margin range. A paid stage, three business days."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Export audit of your goods">
+    <p class="lead">
+      A paid stage, three business days. It answers whether your goods pass and how much it costs — before you sign
+      anything.
+    </p>
+  </Section>
+
+  <Section title="What is included">
+    <ul class="plain plain--check">
+      {included.map((i) => <li>{i}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="What is not included">
+    <ul class="plain">
+      {excluded.map((e) => <li>{e}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="Price">
+    <p class="lead">The price depends on the category; we quote it in reply to your request.</p>
+  </Section>
+
+  <Section title="How we work">
+    <p class="lead">
+      We do not work on unpaid expectations. Preliminary analysis and calculations are done within an agreed, paid stage.
+    </p>
+  </Section>
+
+  <Section id="form" title="Request a calculation">
+    <p class="lead form-lead">
+      The first three fields are about the cargo. For those who can name the product and volume, we calculate the slot,
+      lead time and a price range.
+    </p>
+    <LeadForm />
+  </Section>
+</Base>
+
+<style>
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+  .plain--check {
+    list-style: none;
+    padding-left: 0;
+  }
+  .plain--check li {
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .plain--check li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--port);
+    font-family: var(--font-data);
+  }
+  .form-lead {
+    margin-bottom: 1.5rem;
+  }
+</style>

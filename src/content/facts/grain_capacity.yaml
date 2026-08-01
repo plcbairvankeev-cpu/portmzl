@@ -1,0 +1,9 @@
+id: grain_capacity
+value: "95 600"
+unit: "м³"
+label_ru: "Складская ёмкость зерновой площадки"
+label_en: "Storage capacity of the grain site"
+label_zh: "粮食监管场地总库容"
+source: "进境粮食指定监管场地简介（培训版）"
+registry: "Реестр назначенных площадок ГТУ КНР"
+status: confirmed

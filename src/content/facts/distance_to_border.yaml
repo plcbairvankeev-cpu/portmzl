@@ -1,0 +1,8 @@
+id: distance_to_border
+value: "200"
+unit: "м"
+label_ru: "Расстояние от площадки до автомобильного погранперехода"
+label_en: "Distance from the site to the road border crossing"
+label_zh: "距满洲里公路口岸距离"
+source: "公路运输类海关监管作业场所简介"
+status: confirmed

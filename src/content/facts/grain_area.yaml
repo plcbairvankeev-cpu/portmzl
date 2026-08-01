@@ -1,0 +1,8 @@
+id: grain_area
+value: "27 707"
+unit: "м²"
+label_ru: "Площадь зерновой площадки"
+label_en: "Area of the grain site"
+label_zh: "监管场地总占地面积"
+source: "进境粮食指定监管场地简介（培训版）"
+status: confirmed

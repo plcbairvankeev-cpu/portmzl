@@ -1,0 +1,114 @@
+---
+/**
+ * Китайская версия /ved. Маркетинговая страница — перевод, ЧЕРНОВИК на сверку носителем.
+ * Блок «我们不承诺什么» отражает реальный режим КНР (по категориям и аккредитованным поставщикам).
+ */
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import CTA from '../../components/CTA.astro';
+import ImportCategories from '../../components/ImportCategories.astro';
+
+const rows = [
+  ['开立外汇账户', '与俄罗斯法人签约，以卢布结算'],
+  ['办理外汇管制', '外汇管制不在客户一侧'],
+  ['处理外贸会计核算', '内部合同，常规会计'],
+  ['与海关直接对接', '由运营方在两侧口岸办理'],
+  ['办理植检、动检、技术证书', '协助办证，出口促进中心专家'],
+  ['自聘报关经纪人', '报关职能设于场地'],
+  ['自行结汇（担心付款受阻）', '结算不经客户'],
+  ['自行核算项目经济', '付费出口审核作为独立产品'],
+  ['低毛利原料照原样出口', '品类与中国销路匹配'],
+];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: '无需自建外贸即可开展对华业务',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+};
+---
+
+<Base
+  title="无需自建外贸即可开展对华业务 — 满洲里陆港国际物流中心"
+  description="无需自建外贸即可开展对华业务：与俄罗斯法人签约、以卢布结算、常规会计。外贸工作由我们代为承担。"
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="无需自建外贸，即可开展对华业务">
+    <p class="lead" lang="zh-Hans">
+      外贸并非生产企业的主业，而是额外负担。我们代为承担全部外贸工作。
+    </p>
+  </Section>
+
+  <ImportCategories />
+
+  <Section title="有何不同">
+    <table class="pains" lang="zh-Hans">
+      <thead>
+        <tr>
+          <th scope="col">通常需要</th>
+          <th scope="col">与我们合作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map(([pain, answer]) => (
+            <tr>
+              <td>{pain}</td>
+              <td>{answer}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </Section>
+
+  <Section title="如何落地">
+    <ul class="plain" lang="zh-Hans">
+      <li>与俄罗斯法人签订合同</li>
+      <li>以卢布结算</li>
+      <li>客户端常规会计核算</li>
+    </ul>
+  </Section>
+
+  <Section title="我们不承诺什么">
+    <p class="lead" lang="zh-Hans">
+      中方按品类及具体获认证的供货企业准入。我们不承诺无限品类。第一步始终是按现行要求核验您的品类。
+    </p>
+  </Section>
+
+  <Section>
+    <CTA title="核算您货物的时段与时间" label="索取核算" href="/zh/audit#form" />
+  </Section>
+</Base>
+
+<style>
+  .pains {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step-0);
+  }
+  .pains th,
+  .pains td {
+    text-align: left;
+    vertical-align: top;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--line);
+  }
+  .pains th {
+    font-family: var(--font-body);
+    font-weight: 500;
+    background: var(--concrete);
+  }
+  .pains td:first-child {
+    color: var(--steel);
+  }
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+</style>

@@ -1,0 +1,8 @@
+id: grain_fumigation
+value: "40"
+unit: "фут"
+label_ru: "Фумигационный контейнер на площадке"
+label_en: "Fumigation container on site"
+label_zh: "熏蒸集装箱"
+source: "进境粮食指定监管场地简介（培训版）"
+status: confirmed

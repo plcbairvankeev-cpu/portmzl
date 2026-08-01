@@ -1,0 +1,102 @@
+---
+import Section from './Section.astro';
+import { getLangFromUrl } from '../i18n/utils';
+import { getTirCase } from '../i18n/content/tircase';
+
+/*
+  Кейс первой отправки TIR. i18n-aware. ZH — из первоисточника (简报 04.03.2026).
+*/
+const lang = getLangFromUrl(Astro.url);
+const c = getTirCase(lang);
+const zh = lang === 'zh';
+---
+
+<Section eyebrow={c.eyebrow} title={c.title}>
+  <p class="tircase__date">{c.date}</p>
+
+  <figure class="tircase__photo">
+    <img src="/cases/tir-first.jpg" alt={c.title} width="572" height="232" loading="lazy" />
+    <figcaption lang="zh-Hans">满洲里 TIR 首发启航</figcaption>
+  </figure>
+
+  <p class="lead" lang={zh ? 'zh-Hans' : undefined}>{c.lead}</p>
+
+  <dl class="tircase__facts" lang={zh ? 'zh-Hans' : undefined}>
+    {
+      c.points.map((p) => (
+        <div>
+          <dt>{p.k}</dt>
+          <dd>{p.v}</dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <p class="tircase__sig" lang={zh ? 'zh-Hans' : undefined}>{c.significance}</p>
+  <p class="tircase__source">{c.source}</p>
+</Section>
+
+<style>
+  .tircase__date {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--seal);
+    font-weight: 500;
+  }
+  .tircase__photo {
+    margin: 0 0 1.5rem;
+    max-width: 34rem;
+  }
+  .tircase__photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+  .tircase__photo figcaption {
+    margin-top: 0.5rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .tircase__facts {
+    margin: 1.5rem 0 0;
+    display: grid;
+    gap: 0;
+    max-width: var(--measure);
+  }
+  .tircase__facts > div {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .tircase__facts dt {
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  .tircase__facts dd {
+    margin: 0;
+  }
+  .tircase__sig {
+    margin: 1.5rem 0 0;
+    max-width: var(--measure);
+    font-weight: 500;
+  }
+  .tircase__source {
+    margin-top: 1rem;
+    font-family: var(--font-data);
+    font-size: var(--step--1);
+    color: var(--steel);
+  }
+  @media (max-width: 40rem) {
+    .tircase__facts > div {
+      grid-template-columns: 1fr;
+      gap: 0.15rem;
+    }
+  }
+</style>

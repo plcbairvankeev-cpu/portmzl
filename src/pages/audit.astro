@@ -1,0 +1,106 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import LeadForm from '../components/LeadForm.astro';
+
+const included = [
+  'код ТН ВЭД и HS-код позиции',
+  'применимый режим на китайской стороне',
+  'требования по этой категории',
+  'есть ли аккредитованные площадки под неё',
+  'ориентир цены в КНР',
+  'ориентир логистики',
+  'вилка маржи',
+  'перечень документов',
+];
+
+const excluded = [
+  'поиск покупателя',
+  'юридическое сопровождение контракта',
+  'гарантия прохождения товара',
+];
+
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Экспортный аудит товара',
+  serviceType: 'Экспортный аудит',
+  provider: { '@type': 'Organization', name: 'Порт Маньчжурия' },
+  areaServed: ['RU', 'CN'],
+  description:
+    'Платный аудит: код ТН ВЭД, применимый режим в КНР, требования по категории, ориентир цены и логистики, вилка маржи. Три рабочих дня.',
+};
+---
+
+<Base
+  title="Экспортный аудит товара — проходит ли ваш товар в КНР"
+  description="Экспортный аудит товара: код ТН ВЭД, применимый режим на китайской стороне, требования по категории, ориентир цены и логистики, вилка маржи. Платный этап, три рабочих дня."
+  jsonLd={serviceJsonLd}
+>
+  <Section as="h1" title="Экспортный аудит товара">
+    <p class="lead">
+      Платный этап, три рабочих дня. Отвечает на вопрос, проходит ли ваш товар и сколько это стоит — до
+      того, как вы что-то подписываете.
+    </p>
+  </Section>
+
+  <Section title="Что входит">
+    <ul class="plain plain--check">
+      {included.map((i) => <li>{i}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="Что не входит">
+    <ul class="plain">
+      {excluded.map((e) => <li>{e}</li>)}
+    </ul>
+  </Section>
+
+  <Section title="Стоимость">
+    <p class="lead">Стоимость зависит от категории, называем в ответ на заявку.</p>
+  </Section>
+
+  <Section title="Принцип работы">
+    <p class="lead">
+      Мы не работаем с неоплачиваемыми ожиданиями. Предварительная аналитика и расчёты выполняются в
+      рамках согласованного и оплаченного этапа.
+    </p>
+  </Section>
+
+  <Section id="form" title="Заявка на расчёт">
+    <p class="lead form-lead">
+      Три первых поля — о грузе. Кто может назвать товар и объём, тому мы считаем слот, срок и вилку
+      стоимости.
+    </p>
+    <LeadForm />
+  </Section>
+</Base>
+
+<style>
+  .plain {
+    margin: 0;
+    padding-left: 1.25rem;
+    max-width: var(--measure);
+  }
+  .plain li {
+    padding: 0.25rem 0;
+  }
+  .plain--check {
+    list-style: none;
+    padding-left: 0;
+  }
+  .plain--check li {
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  .plain--check li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--port);
+    font-family: var(--font-data);
+  }
+  .form-lead {
+    margin-bottom: 1.5rem;
+  }
+</style>

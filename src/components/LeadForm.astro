@@ -1,0 +1,175 @@
+---
+/**
+ * LeadForm — форма заявки на расчёт. Поля из раздела 7.1 ТЗ.
+ * Обработка (Zod, Telegram, SMTP, rate limit, проверка времени) — шаг 5, роут /api/lead.
+ *
+ * Работает без JavaScript: нативная валидация + обычный POST (раздел 9 ТЗ).
+ * Три поля о грузе идут первыми сознательно — форма отсеивает нецелевые заявки (§7.1).
+ * Honeypot и скрытая метка времени — заготовка анти-бота §7.2, логика на сервере.
+ * Согласие на ПД не предзаполнено, без него отправка не проходит (§7.3).
+ */
+import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
+
+interface Props {
+  submitLabel?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { submitLabel = t('form.submit') } = Astro.props;
+const source = Astro.url.pathname;
+---
+
+<form class="lead" method="post" action="/api/lead" novalidate={false}>
+  <input type="hidden" name="source" value={source} />
+  <input type="hidden" name="ts" value="" />
+
+  {/* Honeypot: скрыто от людей, заполняется ботами. Раздел 7.2 */}
+  <div class="lead__hp" aria-hidden="true">
+    <label for="lead-website">{t('form.hp')}</label>
+    <input id="lead-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-product">{t('form.product')}</label>
+    <input id="lead-product" name="product" type="text" required autocomplete="off" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-volume">{t('form.volume')}</label>
+    <input id="lead-volume" name="volume" type="text" required autocomplete="off" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-route">{t('form.route')}</label>
+    <input id="lead-route" name="route" type="text" required autocomplete="off" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-company">{t('form.company')}</label>
+    <input id="lead-company" name="company" type="text" required autocomplete="organization" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-name">{t('form.name')}</label>
+    <input id="lead-name" name="name" type="text" required autocomplete="name" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-contact">{t('form.contact')}</label>
+    <input id="lead-contact" name="contact" type="text" required autocomplete="off" />
+  </div>
+
+  <div class="lead__field">
+    <label for="lead-comment">{t('form.comment')} <span class="lead__opt">{t('form.optional')}</span></label>
+    <textarea id="lead-comment" name="comment" rows="4"></textarea>
+  </div>
+
+  <div class="lead__consent">
+    <input id="lead-consent" name="consent" type="checkbox" required value="yes" />
+    <label for="lead-consent">
+      {t('form.consentBefore')}
+      <a href={localizePath('/legal/consent', lang)}>{t('form.consentLink')}</a>.
+    </label>
+  </div>
+
+  <button class="lead__submit" type="submit">{submitLabel}</button>
+</form>
+
+<script is:inline>
+  // Прогрессивное улучшение: помечаем момент отрисовки формы для проверки времени
+  // заполнения (§7.2). Без JS поле остаётся пустым и сервер эту проверку пропускает.
+  document.currentScript.previousElementSibling; // no-op guard
+  var f = document.currentScript.closest('form');
+  if (f) {
+    var ts = f.querySelector('input[name="ts"]');
+    if (ts) ts.value = String(Date.now());
+  }
+</script>
+
+<style>
+  .lead {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 40rem;
+  }
+
+  .lead__hp {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .lead__field {
+    display: grid;
+    gap: 0.375rem;
+  }
+
+  .lead__field label,
+  .lead__consent label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--step--1);
+    color: var(--ink);
+  }
+
+  .lead__opt {
+    font-weight: 400;
+    color: var(--steel);
+  }
+
+  .lead input[type='text'],
+  .lead textarea {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    font: inherit;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .lead input[type='text']:focus-visible,
+  .lead textarea:focus-visible {
+    border-color: var(--port);
+  }
+
+  .lead textarea {
+    resize: vertical;
+  }
+
+  .lead__consent {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.625rem;
+    align-items: start;
+  }
+
+  .lead__consent input {
+    margin-top: 0.2rem;
+  }
+
+  .lead__submit {
+    justify-self: start;
+    padding: 0.75rem 1.5rem;
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--paper);
+    background: var(--red);
+    border: 1px solid var(--red);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .lead__submit:hover {
+    background: var(--red-hover);
+    border-color: var(--red-hover);
+  }
+  .lead__submit:active {
+    background: var(--red-press);
+    border-color: var(--red-press);
+  }
+</style>
