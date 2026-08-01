@@ -85,3 +85,9 @@ export const messengers: Messenger[] = [
   { label: 'Telegram' },
   { label: 'WhatsApp' },
 ];
+
+// Телефон в России. Заполнить: { display: '+7 900 000-00-00', tel: '+79000000000' }.
+export const ruPhone: { display: string; tel: string } | null = null;
+
+// QR-код WeChat: путь к картинке в public (напр. '/people/wechat.png'). Пусто — показываем «добавляется».
+export const wechatQr = '';

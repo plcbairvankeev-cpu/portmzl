@@ -7,7 +7,7 @@
  */
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
-import { CONTACT_EMAIL } from '../../lib/site';
+import { CONTACT_EMAIL, REQUISITES } from '../../lib/site';
 
 const OPERATOR = 'ООО «Порт Маньчжурия»';
 const UPDATED = '31 июля 2026 года';
@@ -31,8 +31,8 @@ const UPDATED = '31 июля 2026 года';
       <h2>Оператор</h2>
       <ul>
         <li>{OPERATOR}</li>
-        <li>ОГРН: [указать], ИНН: [указать]</li>
-        <li>Адрес: [указать]</li>
+        <li>ОГРН: {REQUISITES.ogrn}, ИНН: {REQUISITES.inn}</li>
+        <li>Адрес: {REQUISITES.address}</li>
         <li>Контакт: <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
       </ul>
 

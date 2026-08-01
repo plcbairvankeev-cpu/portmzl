@@ -2,8 +2,8 @@
 import Section from './Section.astro';
 import LeadForm from './LeadForm.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { CONTACT_EMAIL } from '../lib/site';
-import { leadership, russia, company, companyCn, messengers, cnOffice } from '../data/contacts';
+import { CONTACT_EMAIL, REQUISITES, REQUISITES_READY } from '../lib/site';
+import { leadership, russia, company, companyCn, messengers, cnOffice, ruPhone, wechatQr } from '../data/contacts';
 
 /*
   Контакты, i18n-aware. Данные (имена, телефоны, e-mail) общие; подписи и должности — по языку.
@@ -24,7 +24,17 @@ const addr = lang === 'zh' ? cnOffice.addressZh : lang === 'en' ? cnOffice.addre
     </div>
     <div>
       <dt>{t('contacts.phoneRu')}</dt>
-      <dd class="mono todo">{t('contacts.tbd')}</dd>
+      {
+        ruPhone ? (
+          <dd>
+            <a class="mono" href={`tel:${ruPhone.tel}`}>
+              {ruPhone.display}
+            </a>
+          </dd>
+        ) : (
+          <dd class="mono todo">{t('contacts.tbd')}</dd>
+        )
+      }
     </div>
     <div>
       <dt>{t('contacts.phoneCn')}</dt>
@@ -40,7 +50,15 @@ const addr = lang === 'zh' ? cnOffice.addressZh : lang === 'en' ? cnOffice.addre
     </div>
     <div>
       <dt>{t('contacts.wechat')}</dt>
-      <dd class="todo">{t('contacts.wechatTodo')}</dd>
+      {
+        wechatQr ? (
+          <dd>
+            <img class="wechat-qr" src={wechatQr} alt="WeChat QR" width="140" height="140" loading="lazy" />
+          </dd>
+        ) : (
+          <dd class="todo">{t('contacts.wechatTodo')}</dd>
+        )
+      }
     </div>
   </dl>
 
@@ -126,7 +144,16 @@ const addr = lang === 'zh' ? cnOffice.addressZh : lang === 'en' ? cnOffice.addre
 
 <Section title={t('contacts.requisites')}>
   <p>{company}</p>
-  <p class="todo">{t('contacts.reqTodo')}</p>
+  {
+    REQUISITES_READY ? (
+      <>
+        <p class="mono">ИНН {REQUISITES.inn} · ОГРН {REQUISITES.ogrn}</p>
+        <p>{REQUISITES.address}</p>
+      </>
+    ) : (
+      <p class="todo">{t('contacts.reqTodo')}</p>
+    )
+  }
 </Section>
 
 <Section id="form" title={t('contacts.formTitle')}>
@@ -153,6 +180,15 @@ const addr = lang === 'zh' ? cnOffice.addressZh : lang === 'en' ? cnOffice.addre
   }
   .mono {
     font-family: var(--font-data);
+  }
+  .wechat-qr {
+    display: block;
+    width: 140px;
+    height: 140px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+    padding: 4px;
   }
   .todo {
     color: var(--steel);

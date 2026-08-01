@@ -30,3 +30,24 @@ export const SELF_NOUN_CAP = REPRESENTATIVE_CONFIRMED ? 'Представите�
 export const SELF_EYEBROW = REPRESENTATIVE_CONFIRMED
   ? 'ПРЕДСТАВИТЕЛЬСТВО В РОССИИ'
   : 'ПАРТНЁР В РОССИИ';
+
+/**
+ * Аналитика Яндекса. Задаётся в окружении хостинга. Пока пусто — код не подключается
+ * (никаких внешних запросов). Как получите номер счётчика — задать YANDEX_METRIKA_ID.
+ */
+export const YANDEX_METRIKA_ID = process.env.YANDEX_METRIKA_ID ?? '';
+export const YANDEX_VERIFICATION = process.env.YANDEX_VERIFICATION ?? '';
+
+/**
+ * Реквизиты юрлица для правовых страниц (/legal) и контактов. Единая точка правды.
+ * Задаются в окружении или подставляются сюда перед запуском. Пока — видимые
+ * плейсхолдеры, которые надо заменить.
+ */
+export const REQUISITES = {
+  inn: process.env.COMPANY_INN ?? '[ИНН — указать]',
+  ogrn: process.env.COMPANY_OGRN ?? '[ОГРН — указать]',
+  address: process.env.COMPANY_ADDRESS ?? '[юридический адрес — указать]',
+};
+
+// Все реквизиты заданы (нет плейсхолдеров) — для условного текста.
+export const REQUISITES_READY = !Object.values(REQUISITES).some((v) => v.startsWith('['));
