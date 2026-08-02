@@ -17,7 +17,7 @@ export const OG_PAGES: OgPage[] = [
   { slug: 'ved', kicker: 'ВЭД', title: 'Работа с Китаем без собственного ВЭД' },
   { slug: 'audit', kicker: 'ЭКСПОРТНЫЙ АУДИТ', title: 'Экспортный аудит товара' },
   { slug: 'faq', kicker: 'ВОПРОСЫ И ОТВЕТЫ', title: 'Как мы работаем и с чего начать' },
-  { slug: 'about', kicker: 'О ГРУППЕ', title: 'Группа «Порт Маньчжурия»' },
+  { slug: 'about', kicker: 'О ГРУППЕ', title: 'Группа компаний «ПОРТ»' },
   { slug: 'contacts', kicker: 'КОНТАКТЫ', title: 'Контакты' },
 ];
 
