@@ -103,7 +103,7 @@ const ru: HomeContent = {
   notDoCloseLink: 'Как это работает',
   whoHead: 'Кто мы',
   whoBefore:
-    'Мы партнёр группы «Порт Маньчжурия» в России. Группа основана в 1993 году, работает на российском направлении более тридцати лет, включает',
+    'Мы партнёр группы компаний «ПОРТ» в России. Группа основана в 1993 году, работает на российском направлении более тридцати лет, включает',
   whoAfter:
     'филиалов и публичную компанию на бирже NEEQ. С 2022 года развивает логистическое направление на автомобильном переходе Маньчжурия.',
   whoMore: 'О группе и партнёре в России',
@@ -184,7 +184,7 @@ const en: HomeContent = {
   notDoCloseLink: 'How it works',
   whoHead: 'Who we are',
   whoBefore:
-    'We are a partner of the Port Manzhouli group in Russia. The group was founded in 1993, has worked the Russian market for over thirty years, and includes',
+    'We are a partner of the PORT group of companies in Russia. The group was founded in 1993, has worked the Russian market for over thirty years, and includes',
   whoAfter:
     'branches and a public company on the NEEQ exchange. Since 2022 it has been developing logistics at the Manzhouli road crossing.',
   whoMore: 'About the group and its partner in Russia',
