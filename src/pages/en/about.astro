@@ -4,6 +4,7 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import Fact from '../../components/Fact.astro';
+import VideoBlock from '../../components/VideoBlock.astro';
 import { REPRESENTATIVE_CONFIRMED } from '../../lib/site';
 
 const timeline = [
@@ -41,6 +42,8 @@ const timeline = [
       <Fact id="neeq_code" />
     </div>
   </Section>
+
+  <VideoBlock />
 
   {REPRESENTATIVE_CONFIRMED && (
     <Section title="Representative office in Russia">

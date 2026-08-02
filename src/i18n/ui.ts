@@ -81,6 +81,8 @@ export const ui = {
     'lic.authority': 'Выдал',
     'lic.issued': 'Дата выдачи',
     'lic.view': 'Открыть скан',
+    'video.title': 'Видео о группе',
+    'video.lead': 'Обзор группы «Порт Маньчжурия»: направления, объекты и масштаб.',
   },
   en: {
     'nav.site': 'Terminal',
@@ -154,6 +156,8 @@ export const ui = {
     'lic.authority': 'Issued by',
     'lic.issued': 'Issue date',
     'lic.view': 'View scan',
+    'video.title': 'Group video',
+    'video.lead': 'An overview of the Port Manzhouli group: its lines of business, sites and scale.',
   },
   // ZH — черновик, ОБЯЗАТЕЛЬНА сверка носителем перед публикацией.
   zh: {
@@ -228,6 +232,8 @@ export const ui = {
     'lic.authority': '发证机关',
     'lic.issued': '发证日期',
     'lic.view': '查看扫描件',
+    'video.title': '集团视频',
+    'video.lead': '满洲里口岸集团概览：业务方向、项目与规模。',
   },
 } as const;
 

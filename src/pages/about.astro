@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Fact from '../components/Fact.astro';
+import VideoBlock from '../components/VideoBlock.astro';
 import { SELF_NOUN, REPRESENTATIVE_CONFIRMED } from '../lib/site';
 
 // Годы — датированные вехи из docs/01, раздел 2. Набираются mono (проверяемые даты),
@@ -43,6 +44,8 @@ const timeline = [
       <Fact id="neeq_code" />
     </div>
   </Section>
+
+  <VideoBlock />
 
   {/*
     Блок о представительстве публикуется только при REPRESENTATIVE_STATUS_CONFIRMED=true

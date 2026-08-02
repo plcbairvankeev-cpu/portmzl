@@ -7,6 +7,7 @@
 import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import Fact from '../../components/Fact.astro';
+import VideoBlock from '../../components/VideoBlock.astro';
 import { REPRESENTATIVE_CONFIRMED } from '../../lib/site';
 
 // Годы — датированные вехи (mono), не через механизм фактов.
@@ -50,6 +51,8 @@ const timeline = [
       <Fact id="neeq_code" />
     </div>
   </Section>
+
+  <VideoBlock />
 
   {/* 关于俄罗斯代表处的板块仅在 REPRESENTATIVE_STATUS_CONFIRMED=true 时展示（запрет 6）。 */}
   {REPRESENTATIVE_CONFIRMED && (
