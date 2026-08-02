@@ -42,13 +42,28 @@ SMTP_FROM=info@kaskad03.online
 LEAD_EMAIL_TO=info@kaskad03.online
 ```
 
-Домен и флаг статуса влияют на СБОРКУ (пекутся в страницы, sitemap, canonical, OG).
-Их можно оставить дефолтными или переопределить в `.env` рядом с compose:
+Домен, флаг статуса, аналитика и реквизиты влияют на СБОРКУ (пекутся в страницы,
+sitemap, canonical, OG, /legal, /contacts). Их можно оставить дефолтными или задать
+в `.env` рядом с compose (при сборке в Docker — как build-args, см. §3):
 
 ```dotenv
 SITE_URL=https://kaskad03.online
 REPRESENTATIVE_STATUS_CONFIRMED=false   # true только при документе о статусе (запрет 6)
+# Аналитика (пусто — не подключается)
+YANDEX_METRIKA_ID=                      # номер счётчика Яндекс.Метрики
+YANDEX_VERIFICATION=                    # код подтверждения в Яндекс.Вебмастере
+# Реквизиты юрлица для /legal и /contacts (пусто — видны плейсхолдеры)
+COMPANY_INN=
+COMPANY_OGRN=
+COMPANY_ADDRESS=
 ```
+
+### Видео о группе (вне репозитория)
+
+Файл `public/video/group.mp4` (~19 МБ) в git НЕ хранится (тяжёлое медиа, в `.gitignore`).
+Его нужно **скопировать на сервер вручную** в `public/video/group.mp4` до сборки образа
+(или в смонтированный volume). Без него блок «Видео о группе» на `/about` показывает
+только постер (кнопка play даёт 404). Постер и остальные картинки — уже в репозитории.
 
 ## 3. Сборка и запуск
 
