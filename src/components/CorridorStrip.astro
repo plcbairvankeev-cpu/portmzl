@@ -24,9 +24,9 @@ const lang = getLangFromUrl(Astro.url);
 
 // Топонимы маршрута по языкам. Русский — источник; zh/en — сверенные названия.
 const L: Record<Lang, { origin: string; zabaikalsk: string; border: string; manzhouli: string; site: string; route: string }> = {
-  ru: { origin: 'МОСКВА', zabaikalsk: 'ЗАБАЙКАЛЬСК', border: 'ГРАНИЦА', manzhouli: 'МАНЬЧЖУРИЯ', site: 'ПЛОЩАДКА', route: 'Маршрут: Москва — Забайкальск — граница — Маньчжурия — площадка' },
-  zh: { origin: '莫斯科', zabaikalsk: '后贝加尔斯克', border: '国境', manzhouli: '满洲里', site: '场地', route: '路线：莫斯科 — 后贝加尔斯克 — 国境 — 满洲里 — 场地' },
-  en: { origin: 'MOSCOW', zabaikalsk: 'ZABAYKALSK', border: 'BORDER', manzhouli: 'MANZHOULI', site: 'SITE', route: 'Route: Moscow — Zabaykalsk — border — Manzhouli — site' },
+  ru: { origin: 'РОССИЯ', zabaikalsk: 'ЗАБАЙКАЛЬСК', border: 'ГРАНИЦА', manzhouli: 'МАНЬЧЖУРИЯ', site: 'КИТАЙ', route: 'Маршрут: Россия — Забайкальск — граница — Маньчжурия — Китай' },
+  zh: { origin: '俄罗斯', zabaikalsk: '后贝加尔斯克', border: '国境', manzhouli: '满洲里', site: '中国', route: '路线：俄罗斯 — 后贝加尔斯克 — 国境 — 满洲里 — 中国' },
+  en: { origin: 'RUSSIA', zabaikalsk: 'ZABAYKALSK', border: 'BORDER', manzhouli: 'MANZHOULI', site: 'CHINA', route: 'Route: Russia — Zabaykalsk — border — Manzhouli — China' },
 };
 const t = L[lang];
 
@@ -42,7 +42,6 @@ async function dist(id: string): Promise<string | null> {
 }
 
 const dUlan = await dist('distance_ulanude_border'); // pending → null
-const dSite = await dist('distance_to_border');
 ---
 
 <figure class="corridor" role="img" aria-label={t.route}>
@@ -65,7 +64,6 @@ const dSite = await dist('distance_to_border');
 
     <li class="corridor__seg">
       <span class="corridor__line"></span>
-      {dSite && <span class="corridor__dist">{dSite}</span>}
     </li>
 
     <li class="corridor__node corridor__node--target" lang={lang}>{t.site}</li>
