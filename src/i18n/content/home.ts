@@ -57,6 +57,11 @@ const ru: HomeContent = {
       href: '/tir',
     },
     {
+      title: 'Опасные грузы, классы 2–9',
+      text: 'Единственная на переходе площадка с квалификацией на ввоз и вывоз опасных химических грузов классов 2–9 и с досмотровым складом.',
+      href: '/site',
+    },
+    {
       title: 'Оформление и хранение',
       text: 'Таможенное оформление, СВХ, перецепка полуприцепов, контейнерная перевалка, склады обычные и с контролируемой температурой.',
       href: '/site',
@@ -136,6 +141,11 @@ const en: HomeContent = {
       title: 'TIR Moscow — Manzhouli',
       text: 'Road delivery under a TIR carnet, no reloading at the border. One-window clearance on site. Works both ways.',
       href: '/tir',
+    },
+    {
+      title: 'Hazardous cargo, classes 2–9',
+      text: 'The only site at the crossing qualified to import and export hazardous chemicals of classes 2–9, with an inspection warehouse.',
+      href: '/site',
     },
     {
       title: 'Clearance and storage',
@@ -219,6 +229,11 @@ const zh: HomeContent = {
       title: 'TIR 莫斯科—满洲里',
       text: '凭TIR证册公路直达，边境无需换装。场地一站式办理，双向通行。',
       href: '/tir',
+    },
+    {
+      title: '危化品（2—9类）',
+      text: '口岸唯一具备危化品2—9类进出口资质及查验库房的场地。',
+      href: '/site',
     },
     {
       title: '通关与仓储',
