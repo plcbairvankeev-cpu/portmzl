@@ -2,7 +2,6 @@
 import Section from './Section.astro';
 import Fact from './Fact.astro';
 import CorridorStrip from './CorridorStrip.astro';
-import TruckScene from './TruckScene.astro';
 import CTA from './CTA.astro';
 import { getLangFromUrl, useTranslations, localizePath } from '../i18n/utils';
 import { getHome } from '../i18n/content/home';
@@ -16,7 +15,16 @@ const auditForm = localizePath('/audit', lang) + '#form';
 {!translated && <p class="i18n-notice">{t('notice.untranslated')}</p>}
 
 <section class="hero">
-  <div class="hero__scene"><TruckScene /></div>
+  <div class="hero__scene">
+    <img
+      class="hero__photo"
+      src="/hero/hero.jpg"
+      alt="Фуры TIR у автомобильного перехода Маньчжурия"
+      width="1600"
+      height="565"
+      fetchpriority="high"
+    />
+  </div>
   <div class="hero__content">
     <p class="hero__eyebrow">{c.eyebrow} · <span lang="zh-Hans">满洲里陆港国际物流中心</span></p>
     <h1 class="hero__title">{c.h1Before}{' '}<Fact id="distance_to_border" inline />{' '}{c.h1After}</h1>
@@ -118,6 +126,13 @@ const auditForm = localizePath('/audit', lang) + '#form';
     inset: 0;
     z-index: 0;
   }
+  .hero__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 62% center;
+    display: block;
+  }
   .hero::after {
     content: '';
     position: absolute;
@@ -167,9 +182,11 @@ const auditForm = localizePath('/audit', lang) + '#form';
     align-items: center;
     gap: 1rem 1.5rem;
   }
-  /* Полоса коридора под героем — на светлом фоне. */
+  /* Полоса коридора под героем — на светлом фоне.
+     Верхний отступ больше: подписи расстояний и «граница» стоят НАД линией. */
   .corridor-band {
-    padding-block: 1.25rem;
+    padding-top: 1.75rem;
+    padding-bottom: 2.5rem;
     border-bottom: 1px solid var(--line);
   }
 
