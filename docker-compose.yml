@@ -4,8 +4,8 @@ services:
       context: .
       args:
         # Конфиг сборки (пекётся в страницы). Можно переопределить в .env рядом с compose.
-        SITE_URL: ${SITE_URL:-https://kaskad03.online}
-        CONTACT_EMAIL: ${CONTACT_EMAIL:-info@kaskad03.online}
+        SITE_URL: ${SITE_URL:-https://portmzl.ru}
+        CONTACT_EMAIL: ${CONTACT_EMAIL:-info@portmzl.ru}
         REPRESENTATIVE_STATUS_CONFIRMED: ${REPRESENTATIVE_STATUS_CONFIRMED:-false}
     image: portmzl-web
     restart: unless-stopped

@@ -14,8 +14,8 @@
  * Пока не заданы — очевидные плейсхолдеры, которые видно и надо заменить перед запуском.
  * SITE_URL читается ещё и в astro.config.mjs (canonical, sitemap, абсолютные OG-URL).
  */
-export const SITE_URL = process.env.SITE_URL ?? 'https://kaskad03.online';
-export const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? 'info@kaskad03.online';
+export const SITE_URL = process.env.SITE_URL ?? 'https://portmzl.ru';
+export const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? 'info@portmzl.ru';
 export const SITE_NAME = 'Порт Маньчжурия';
 
 const raw = process.env.REPRESENTATIVE_STATUS_CONFIRMED;

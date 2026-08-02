@@ -1,4 +1,8 @@
-# Деплой — kaskad03.online (Docker на российском VPS)
+# Деплой — portmzl.ru + portmzl.com (Docker на российском VPS)
+
+> Основной домен — **portmzl.ru**. **portmzl.com** отдаёт 301-редирект на portmzl.ru
+> (настроено в `deploy/nginx.conf`). Оба домена и их `www` должны указывать A-записью
+> на IP сервера; сертификат выпускается один на все четыре имени.
 
 Сайт: Astro (пре-рендер) + `@astrojs/node` standalone. Node-сервер отдаёт статические страницы
 и серверный роут формы `/api/lead` (Telegram + SMTP). Данные — на территории РФ (152-ФЗ).
@@ -11,7 +15,7 @@
 
 - VPS с Ubuntu 22.04+ (Selectel / Timeweb / любой), 1 vCPU / 1–2 ГБ RAM хватит.
 - Установленные **Docker** и **docker compose** (`curl -fsSL https://get.docker.com | sh`).
-- Домен **kaskad03.online**: A-запись (и `www`) → IP вашего VPS.
+- Домены **portmzl.ru** и **portmzl.com**: A-записи для `@` и `www` обоих → IP вашего VPS.
 - Секреты для формы: токен Telegram-бота и chat_id, доступы SMTP.
 
 ---
@@ -29,17 +33,17 @@ git clone <ваш-репозиторий> /opt/kaskad && cd /opt/kaskad
 
 ```dotenv
 # Контактный e-mail (используется и в тексте ошибки формы)
-CONTACT_EMAIL=info@kaskad03.online
+CONTACT_EMAIL=info@portmzl.ru
 # Telegram
 TELEGRAM_BOT_TOKEN=123456:AA...
 TELEGRAM_CHAT_ID=-1001234567890
 # SMTP
 SMTP_HOST=smtp.timeweb.ru
 SMTP_PORT=465
-SMTP_USER=info@kaskad03.online
+SMTP_USER=info@portmzl.ru
 SMTP_PASSWORD=********
-SMTP_FROM=info@kaskad03.online
-LEAD_EMAIL_TO=info@kaskad03.online
+SMTP_FROM=info@portmzl.ru
+LEAD_EMAIL_TO=info@portmzl.ru
 ```
 
 Домен, флаг статуса, аналитика и реквизиты влияют на СБОРКУ (пекутся в страницы,
@@ -47,7 +51,7 @@ sitemap, canonical, OG, /legal, /contacts). Их можно оставить д�
 в `.env` рядом с compose (при сборке в Docker — как build-args, см. §3):
 
 ```dotenv
-SITE_URL=https://kaskad03.online
+SITE_URL=https://portmzl.ru
 REPRESENTATIVE_STATUS_CONFIRMED=false   # true только при документе о статусе (запрет 6)
 # Аналитика (пусто — не подключается)
 YANDEX_METRIKA_ID=                      # номер счётчика Яндекс.Метрики
@@ -80,15 +84,15 @@ curl -s -o /dev/null -w '%{http_code}\n' http://127.0.0.1:4321/   # 200
 
 ```bash
 apt install -y nginx certbot python3-certbot-nginx
-cp deploy/nginx.conf /etc/nginx/sites-available/kaskad03.online
-ln -s /etc/nginx/sites-available/kaskad03.online /etc/nginx/sites-enabled/
+cp deploy/nginx.conf /etc/nginx/sites-available/portmzl.ru
+ln -s /etc/nginx/sites-available/portmzl.ru /etc/nginx/sites-enabled/
 mkdir -p /var/www/certbot
 nginx -t && systemctl reload nginx
-# выпустить сертификат (DNS уже должен указывать на сервер):
-certbot --nginx -d kaskad03.online -d www.kaskad03.online
+# один сертификат на все четыре имени (DNS всех уже должен указывать на сервер):
+certbot --nginx -d portmzl.ru -d www.portmzl.ru -d portmzl.com -d www.portmzl.com
 ```
 
-Готово: https://kaskad03.online.
+Готово: https://portmzl.ru (portmzl.com автоматически редиректит на него).
 
 ## 5. Проверка
 
@@ -109,7 +113,7 @@ docker compose build && docker compose up -d
 
 ```bash
 # на сервере: node 20, затем в каталоге проекта
-SITE_URL=https://kaskad03.online CONTACT_EMAIL=info@kaskad03.online \
+SITE_URL=https://portmzl.ru CONTACT_EMAIL=info@portmzl.ru \
   REPRESENTATIVE_STATUS_CONFIRMED=false npm ci && npm run build
 ```
 
@@ -117,7 +121,7 @@ SITE_URL=https://kaskad03.online CONTACT_EMAIL=info@kaskad03.online \
 
 ```ini
 [Unit]
-Description=kaskad03.online (Astro node)
+Description=portmzl.ru (Astro node)
 After=network.target
 [Service]
 WorkingDirectory=/opt/kaskad

@@ -12,7 +12,7 @@ export default defineConfig({
   output: 'static',
   adapter: node({ mode: 'standalone' }),
   // Домен проекта. Переопределяется переменной окружения SITE_URL (стейджинг/смена домена).
-  site: process.env.SITE_URL || 'https://kaskad03.online',
+  site: process.env.SITE_URL || 'https://portmzl.ru',
   trailingSlash: 'ignore',
   // Встроенный checkOrigin сравнивает Origin с ВНУТРЕННИМ origin запроса, а за nginx он http://
   // (HTTPS обрывается на прокси) → ложные 403 на всех отправках формы. Делаем свою proxy-aware

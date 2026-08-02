@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-# Порт Маньчжурия / kaskad03.online — Astro (static) + @astrojs/node standalone.
+# Порт Маньчжурия / portmzl.ru — Astro (static) + @astrojs/node standalone.
 # Прод-сервер отдаёт пре-рендеренные страницы и серверный роут формы /api/lead.
 
 # ─────────────────────────── build ───────────────────────────
@@ -8,8 +8,8 @@ WORKDIR /app
 
 # Конфиг, влияющий на СБОРКУ (пекётся в страницы): домен, e-mail, флаг статуса.
 # Секреты (Telegram/SMTP) сюда НЕ передаём — они только в рантайме.
-ARG SITE_URL=https://kaskad03.online
-ARG CONTACT_EMAIL=info@kaskad03.online
+ARG SITE_URL=https://portmzl.ru
+ARG CONTACT_EMAIL=info@portmzl.ru
 ARG REPRESENTATIVE_STATUS_CONFIRMED=false
 ENV SITE_URL=$SITE_URL \
     CONTACT_EMAIL=$CONTACT_EMAIL \

@@ -1,6 +1,7 @@
 # Передача проекта на деплой
 
-Сайт «Порт Маньчжурия» (`kaskad03.online`). Этот файл — для программиста, который развернёт сайт.
+Сайт «Порт Маньчжурия» (основной домен `portmzl.ru`, плюс `portmzl.com` → 301-редирект на него).
+Этот файл — для программиста, который развернёт сайт.
 Полная инструкция по деплою — в [`DEPLOY.md`](./DEPLOY.md).
 
 ## Стек
@@ -28,7 +29,8 @@ git clone https://github.com/plcbairvankeev-cpu/portmzl.git
 3. **Аналитика** (опционально): `YANDEX_METRIKA_ID`, `YANDEX_VERIFICATION`.
 4. **Видео** `public/video/group.mp4` (~19 МБ) — вне git, клиент передаёт файлом; положить в `public/video/`.
    Без него блок «Видео о группе» на `/about` покажет только постер.
-5. **Домен**: доступ к DNS `kaskad03.online` (A-запись на IP сервера) + почта на этом домене для SMTP.
+5. **Домены**: доступ к DNS `portmzl.ru` и `portmzl.com` (A-записи `@` и `www` обоих → IP сервера)
+   + почта `info@portmzl.ru` для SMTP. portmzl.com редиректит на portmzl.ru (см. `deploy/nginx.conf`).
 
 Флаг `REPRESENTATIVE_STATUS_CONFIRMED` оставить `false`, пока клиент не передаст документ о статусе
 представителя (влияет на формулировки, см. `CLAUDE.md`).
